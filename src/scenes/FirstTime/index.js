@@ -1,5 +1,6 @@
 import React from 'react'
-import { BackHandler } from 'react-native'
+import { BackHandler, PixelRatio } from 'react-native'
+import { isTablet } from 'react-native-device-detection'
 
 import * as Utils from '../../components/Utils'
 import tl from '../../utils/i18n'
@@ -26,16 +27,18 @@ class FirstTime extends React.Component {
   render () {
     const shouldDoubleCheck = this.props.navigation.getParam('shouldDoubleCheck')
     const testInput = this.props.navigation.getParam('testInput')
+    console.log(PixelRatio.get(), PixelRatio.getPixelSizeForLayoutSize(24))
     return (
       <Utils.Container>
         <Utils.View flex={1} />
-        <Utils.Content>
+        <Utils.Content align={isTablet ? 'center' : 'stretch'}>
           <Utils.Row justify='center'>
             <Logo />
           </Utils.Row>
           <Utils.VerticalSpacer size='big' />
           <ButtonGradient
             text={tl.t('firstTime.button.create')}
+            width={isTablet && 620}
             onPress={() => {
               this.props.navigation.navigate('Pin', {
                 shouldDoubleCheck,
@@ -53,6 +56,7 @@ class FirstTime extends React.Component {
           <Utils.VerticalSpacer />
           <ButtonGradient
             text={tl.t('firstTime.button.restore')}
+            width={isTablet && 620}
             onPress={() => {
               this.props.navigation.navigate('Pin', {
                 shouldDoubleCheck,

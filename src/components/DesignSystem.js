@@ -1,4 +1,5 @@
 import { Dimensions } from 'react-native'
+import { isTablet } from 'react-native-device-detection'
 
 export const Spacing = {
   none: 0,
@@ -13,7 +14,7 @@ export const Spacing = {
 export const ButtonSize = {
   small: 28,
   medium: 42,
-  large: 50
+  large: isTablet ? 70 : 50
 }
 
 export const Colors = {
@@ -62,12 +63,12 @@ const getAdjustedFontSize = size =>
 
 export const FontSize = {
   tiny: getAdjustedFontSize(11),
-  button: getAdjustedFontSize(12),
+  button: getAdjustedFontSize(isTablet ? 42 : 12),
   xsmall: getAdjustedFontSize(12),
   smaller: getAdjustedFontSize(14),
   small: getAdjustedFontSize(16),
   average: getAdjustedFontSize(18),
-  medium: getAdjustedFontSize(24),
+  medium: getAdjustedFontSize(isTablet ? 72 : 24),
   large: getAdjustedFontSize(36),
   huge: getAdjustedFontSize(54)
 }
