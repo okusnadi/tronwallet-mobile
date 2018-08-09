@@ -2,7 +2,8 @@ import React, { Component } from 'react'
 import { StatusBar, Platform, YellowBox, SafeAreaView } from 'react-native'
 import {
   createBottomTabNavigator,
-  createStackNavigator
+  createStackNavigator,
+  createMaterialTopTabNavigator
 } from 'react-navigation'
 import { createIconSetFromFontello } from 'react-native-vector-icons'
 import axios from 'axios'
@@ -10,7 +11,7 @@ import Config from 'react-native-config'
 import OneSignal from 'react-native-onesignal'
 import { Sentry, SentryLog } from 'react-native-sentry'
 
-import { Colors } from './src/components/DesignSystem'
+import { Colors, ScreenSize  } from './src/components/DesignSystem'
 
 import LoadingScene from './src/scenes/Loading'
 import SendScene from './src/scenes/Send'
@@ -36,6 +37,8 @@ import ParticipateHome from './src/scenes/Participate'
 import Pin from './src/scenes/Pin'
 import FirstTime from './src/scenes/FirstTime'
 import TransactionSuccess from './src/scenes/TransactionSuccess'
+import AccountsScene from './src/scenes/Accounts'
+import ContactsScene from './src/scenes/Contacts'
 
 import Client from './src/services/client'
 import { Context } from './src/store/context'
@@ -73,6 +76,37 @@ const SettingsStack = createStackNavigator({
   }
 })
 
+const tabWidth = ScreenSize.width / 2
+const indicatorWidth = 15
+const LoginTabsPadding = 20 + 12
+const AddressBookTabs = createMaterialTopTabNavigator(
+  {
+    Contacts: ContactsScene,
+    Accounts: AccountsScene
+  },
+  {
+    tabBarOptions: {
+      activeTintColor: Colors.primaryText,
+      inactiveTintColor: Colors.secondaryText,
+      style: {
+        paddingTop: 10,
+        backgroundColor: Colors.background,
+        elevation: 0
+      },
+      labelStyle: {
+        fontSize: 16,
+        lineHeight: 20,
+        fontFamily: 'rubik-medium'
+      },
+      indicatorStyle: {
+        width: indicatorWidth,
+        height: 1.2,
+        marginLeft: tabWidth / 2 - indicatorWidth / 2
+      }
+    }
+  }
+)
+
 const BalanceStack = createStackNavigator({
   BalanceScene,
   ReceiveScene,
@@ -95,6 +129,7 @@ const ParticipateStack = createStackNavigator(
 
 const AppTabs = createBottomTabNavigator({
   Market: MarketScene,
+  AddressBook: AddressBookTabs,
   Vote: {
     screen: VoteScene,
     path: 'vote'
@@ -113,6 +148,8 @@ const AppTabs = createBottomTabNavigator({
       } else if (routeName === 'Balance') {
         iconName = `wallet,-money,-cash,-balance,-purse`
       } else if (routeName === 'Transfer') {
+        iconName = `fly,-send,-paper,-submit,-plane`
+      } else if (routeName === 'AddressBook') {
         iconName = `fly,-send,-paper,-submit,-plane`
       } else if (routeName === 'Vote') {
         iconName = `shout-out,-speaker,-offer,-announcement,-loud`
