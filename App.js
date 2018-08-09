@@ -39,6 +39,7 @@ import FirstTime from './src/scenes/FirstTime'
 import TransactionSuccess from './src/scenes/TransactionSuccess'
 import AccountsScene from './src/scenes/Accounts'
 import ContactsScene from './src/scenes/Contacts'
+import NavigationHeader from './src/components/Navigation/Header'
 
 import Client from './src/services/client'
 import { Context } from './src/store/context'
@@ -87,22 +88,32 @@ const AddressBookTabs = createMaterialTopTabNavigator(
   {
     tabBarOptions: {
       activeTintColor: Colors.primaryText,
-      inactiveTintColor: Colors.secondaryText,
+      inactiveTintColor: '#66688f',
       style: {
         paddingTop: 10,
         backgroundColor: Colors.background,
         elevation: 0
       },
       labelStyle: {
-        fontSize: 16,
-        lineHeight: 20,
-        fontFamily: 'rubik-medium'
+        fontSize: 12,
+        lineHeight: 12,
+        letterSpacing: 0.6,
+        fontFamily: 'Rubik-Medium'
       },
       indicatorStyle: {
         width: indicatorWidth,
         height: 1.2,
         marginLeft: tabWidth / 2 - indicatorWidth / 2
       }
+    }
+  }
+)
+
+const AddressBookStack = createStackNavigator({
+    AddressBook: AddressBookTabs
+  }, {
+    navigationOptions: {
+      header: <NavigationHeader title='ADDRESS BOOK' />
     }
   }
 )
@@ -129,7 +140,7 @@ const ParticipateStack = createStackNavigator(
 
 const AppTabs = createBottomTabNavigator({
   Market: MarketScene,
-  AddressBook: AddressBookTabs,
+  AddressBook: AddressBookStack,
   Vote: {
     screen: VoteScene,
     path: 'vote'
