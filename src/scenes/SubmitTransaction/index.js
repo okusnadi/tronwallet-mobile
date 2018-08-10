@@ -182,7 +182,7 @@ class TransactionDetail extends Component {
 
   _renderContracts = () => {
     const { transactionData, nowDate, tokenAmount } = this.state
-    if (transactionData) return null
+    if (!transactionData) return null
     const { contracts } = transactionData
 
     const contractsElements = buildTransactionDetails(contracts, tokenAmount)
