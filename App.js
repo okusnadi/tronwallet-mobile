@@ -39,6 +39,8 @@ import FirstTime from './src/scenes/FirstTime'
 import TransactionSuccess from './src/scenes/TransactionSuccess'
 import AccountsScene from './src/scenes/Accounts'
 import ContactsScene from './src/scenes/Contacts'
+import EditContactScene from './src/scenes/Contacts/Edit'
+import AddContactScene from './src/scenes/Contacts/Add'
 import NavigationHeader from './src/components/Navigation/Header'
 
 import Client from './src/services/client'
@@ -113,7 +115,9 @@ const AddressBookTabs = createMaterialTopTabNavigator(
 )
 
 const AddressBookStack = createStackNavigator({
-    AddressBook: AddressBookTabs
+    AddressBook: AddressBookTabs,
+    EditContact: EditContactScene,
+    AddContact: AddContactScene
   }, {
     navigationOptions: {
       header: <NavigationHeader title='ADDRESS BOOK' />
@@ -164,7 +168,7 @@ const AppTabs = createBottomTabNavigator({
       } else if (routeName === 'Transfer') {
         iconName = `fly,-send,-paper,-submit,-plane`
       } else if (routeName === 'AddressBook') {
-        iconName = `fly,-send,-paper,-submit,-plane`
+        iconName = `diary,-contact,-address,-organizer,-book`
       } else if (routeName === 'Vote') {
         iconName = `shout-out,-speaker,-offer,-announcement,-loud`
       } else if (routeName === 'Transactions') {
