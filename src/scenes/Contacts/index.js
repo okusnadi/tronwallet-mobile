@@ -5,12 +5,7 @@ import ContactsModal from './ContactsModal'
 import FloatingButton from '../../components/FloatingButton'
 import { Container } from '../../components/Utils'
 import FadeIn from '../../components/Animations/FadeIn'
-import {
-  Card,
-  Name,
-  Alias,
-  Address
-} from './elements'
+import AddressCard from '../../components/AddressCard'
 
 // Mock state
 const contacts = [{
@@ -56,24 +51,38 @@ export default class Contacts extends Component {
     })
   }
 
+  _onEditPress = () => {
+    const { navigation } = this.props
+    const { currentContact } = this.state
+
+    this._closeContactsModal()
+    navigation.navigate('EditContact', { contact: currentContact })
+  }
+
+  _onAddPress = () => {
+    const { navigation } = this.props
+
+    navigation.navigate('AddContact')
+  }
+
   _renderCard = ({ item }) => (
-    <Card onPress={() => { this._onCardPress(item) }}>
-      <Name>{item.name}</Name>
-      <Alias>@{item.username}</Alias>
-      <Address>{item.address}</Address>
-    </Card>
+    <AddressCard
+      item={item}
+      onCardPress={() => { this._onCardPress(item) }}
+    />
   )
 
   render () {
-    const { contacts, currentContact, modalVisible } = this.state
+    const { contacts, modalVisible } = this.state
 
     return (
       <Container style={{position: 'relative'}}>
         <ContactsModal
-          contact={currentContact}
           visible={modalVisible}
           closeModal={this._closeContactsModal}
           animationType='fade'
+          onPressEdit={this._onEditPress}
+          onPressSend={() => {}}
         />
         <FadeIn name='contacts'>
           <FlatList
@@ -82,7 +91,7 @@ export default class Contacts extends Component {
             renderItem={this._renderCard}
           />
         </FadeIn>
-        <FloatingButton text='ADD CONTACT' onPress={() => {}} />
+        <FloatingButton text='ADD CONTACT' onPress={this._onAddPress} />
       </Container>
     )
   }

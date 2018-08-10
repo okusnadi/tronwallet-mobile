@@ -28,11 +28,13 @@ export const Title = styled.Text`
   color: ${Colors.greyBlue};
   margin-top: 25px;
 `
-export const Action = styled.Text`
+export const Action = styled.TouchableOpacity`
+  padding: 35px;
+`
+export const ActionText = styled.Text`
   ${Text}
   font-family: Rubik-Bold;
   line-height: 12px;
   letter-spacing: 0.6px;
   color: white;
-  margin: 35px;
 `

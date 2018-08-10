@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import Modal from '../../../components/Modal'
 import {
@@ -6,6 +7,7 @@ import {
   ContactsModalCard,
   Divider,
   Action,
+  ActionText,
   Title
 } from './elements'
 
@@ -25,12 +27,24 @@ const ContactsModal = ({
     <ContactsModalWrapper onPress={closeModal}>
       <ContactsModalCard>
         <Title>Would you like to</Title>
-        <Action>EDIT</Action>
+        <Action onPress={onPressEdit}>
+          <ActionText>EDIT</ActionText>
+        </Action>
         <Divider />
-        <Action>SEND</Action>
+        <Action onPress={onPressSend}>
+          <ActionText>SEND</ActionText>
+        </Action>
       </ContactsModalCard>
     </ContactsModalWrapper>
   </Modal>
 )
+
+ContactsModal.propTypes = {
+  visible: PropTypes.bool.isRequired,
+  onPressEdit: PropTypes.func.isRequired,
+  onPressSend: PropTypes.func.isRequired,
+  closeModal: PropTypes.func.isRequired,
+  animationType: PropTypes.string
+}
 
 export default ContactsModal
