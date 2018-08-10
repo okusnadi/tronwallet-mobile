@@ -10,23 +10,18 @@ import AddressCard from '../../components/AddressCard'
 // Mock state
 const contacts = [{
   name: 'Fabiana',
-  username: 'fabiana',
   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
 }, {
   name: 'Fabio',
-  username: 'fabio',
   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
 }, {
   name: 'Fernando',
-  username: 'fernando',
   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
 }, {
   name: 'Guilherme',
-  username: 'guilherme',
   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
 }, {
   name: 'Heliporto Guarulhos',
-  username: 'heliporto_guarulhos',
   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
 }]
 
