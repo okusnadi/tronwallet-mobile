@@ -41,7 +41,8 @@ const resetAction = StackActions.reset({
 const LANGUAGES = [
   { value: tl.t('cancel') },
   { key: 'en-US', value: 'English' },
-  { key: 'pt-BR', value: 'Português' }
+  { key: 'pt-BR', value: 'Português' },
+  { key: 'fr-FR', value: 'Français' }
 ]
 
 class Settings extends Component {
