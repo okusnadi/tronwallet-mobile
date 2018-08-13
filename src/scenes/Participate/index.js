@@ -6,11 +6,9 @@ import {
   Image,
   FlatList,
   ActivityIndicator,
-  View,
-  Dimensions
+  View
 } from 'react-native'
 
-import I18n from 'react-native-i18n'
 import LinearGradient from 'react-native-linear-gradient'
 import ProgressBar from 'react-native-progress/Bar'
 import moment from 'moment'
@@ -49,10 +47,6 @@ import {
 import { rgb } from '../../../node_modules/polished'
 
 const AMOUNT_TO_FETCH = 20
-const BANNER = {
-  en: require('../../assets/images/banner-en.png'),
-  pt: require('../../assets/images/banner-pt.png')
-}
 
 class ParticipateHome extends React.Component {
   static navigationOptions = ({ navigation }) => {
@@ -141,30 +135,6 @@ class ParticipateHome extends React.Component {
     const assets = await updateAssets(start, AMOUNT_TO_FETCH)
     return assets.filter(({ issuedPercentage, name, startTime, endTime }) =>
       issuedPercentage < 100 && name !== 'TRX' && name !== 'TWX' && startTime < Date.now() && endTime > Date.now()
-    )
-  }
-
-  _getBanner = () => {
-    const locale = I18n.currentLocale().substr(0, 2)
-    return BANNER[locale] ? BANNER[locale] : BANNER.en
-  }
-
-  _renderSlide = () => {
-    const { searchMode } = this.state
-
-    if (searchMode) {
-      return null
-    }
-
-    return (
-      <View>
-        <Image source={this._getBanner()} style={{ height: 232, width: Dimensions.get('window').width }} resizeMode='cover' />
-        <VerticalSpacer size={30} />
-        <TokensTitle>
-          {tl.t('participate.tokens')}
-        </TokensTitle>
-        <VerticalSpacer size={20} />
-      </View>
     )
   }
 
