@@ -25,7 +25,7 @@ const formatValue = (value, numbersOnly, type) => {
     if (type === 'int') {
       return value.replace(thousandSeparator, '$1,')
     } else {
-      const decimal = value.split('.')
+      const decimal = value.toString().split('.')
       if (decimal.length >= 2) {
         return `${decimal[0].replace(thousandSeparator, '$1,')}.${decimal[1].substr(0, 6)}`
       } else {

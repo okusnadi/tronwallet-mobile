@@ -1,18 +1,20 @@
 import React, { PureComponent } from 'react'
 import { Dimensions, Clipboard } from 'react-native'
 import Toast from 'react-native-easy-toast'
-import { tint } from 'polished'
 import Feather from 'react-native-vector-icons/Feather'
 import { Answers } from 'react-native-fabric'
 
+// Design
 import NavigationHeader from '../../components/Navigation/Header'
 import QRCode from '../../components/QRCode'
-import tl from '../../utils/i18n'
-import * as Utils from '../../components/Utils'
 import { Colors, FontSize } from '../../components/DesignSystem'
 import KeyboardScreen from '../../components/KeyboardScreen'
 import Share from '../../components/Share'
 
+// Utils
+import { ActionButton } from './elements'
+import * as Utils from '../../components/Utils'
+import tl from '../../utils/i18n'
 import { withContext } from '../../store/context'
 
 class ReceiveScreen extends PureComponent {
@@ -54,43 +56,32 @@ class ReceiveScreen extends PureComponent {
     const publicKey = context.publicKey.value
 
     return (
-      <Utils.Container>
-        <KeyboardScreen>
-          <Utils.StatusBar />
-          <Utils.Content marginY='20' align='center'>
-            {!!publicKey && <QRCode value={publicKey} onLoad={this._onLoad} loading={this.state.loading} size={width * 0.6} />}
-            <Utils.VerticalSpacer size='large' />
-
-            <Utils.Label color={tint(0.9, Colors.background)}>
-              <Utils.Text size='xsmall'>{publicKey}</Utils.Text>
-            </Utils.Label>
-            <Utils.VerticalSpacer size='medium' />
-            <Toast
-              ref='toast'
-              position='center'
-              fadeInDuration={750}
-              fadeOutDuration={1000}
-              opacity={0.8}
-            />
-            <Utils.Row align='center'>
-              <Utils.PasteButton onPress={this._copy}>
-                <Utils.Text>
-                  <Feather
-                    name='clipboard'
-                    size={FontSize['small']}
-                    color={Colors.primaryText}
-                  />
-                  {` ${tl.t('receive.button.copy')} `}
-                </Utils.Text>
-              </Utils.PasteButton>
-              <Utils.HorizontalSpacer />
-              <Share WrapperButton={Utils.PasteButton}>
-                <Utils.Text> {tl.t('receive.button.share')} </Utils.Text>
-              </Share>
-            </Utils.Row>
-          </Utils.Content>
-        </KeyboardScreen>
-      </Utils.Container>
+      <KeyboardScreen>
+        <Utils.Content align='center'>
+          <Utils.VerticalSpacer size='medium' />
+          {!!publicKey && <QRCode value={publicKey} onLoad={this._onLoad} loading={this.state.loading} size={width * 0.5} />}
+          <Utils.Text size='xsmall' font='medium' secondary>{publicKey}</Utils.Text>
+          <Utils.VerticalSpacer size='medium' />
+          <Utils.Row align='center' style={{minWidth: width * 0.6}}>
+            <ActionButton onPress={this._copy}>
+              <Feather
+                name='clipboard'
+                size={FontSize['small']}
+                color={Colors.primaryText}
+              />
+            </ActionButton>
+            <Utils.HorizontalSpacer />
+            <Share WrapperButton={ActionButton} />
+          </Utils.Row>
+        </Utils.Content>
+        <Toast
+          ref='toast'
+          position='center'
+          fadeInDuration={750}
+          fadeOutDuration={1000}
+          opacity={0.8}
+        />
+      </KeyboardScreen>
     )
   }
 }

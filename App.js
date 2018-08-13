@@ -8,7 +8,7 @@ import { createIconSetFromFontello } from 'react-native-vector-icons'
 import axios from 'axios'
 import Config from 'react-native-config'
 import OneSignal from 'react-native-onesignal'
-import { Sentry, SentryLog } from 'react-native-sentry'
+import { Sentry } from 'react-native-sentry'
 
 import { Colors } from './src/components/DesignSystem'
 
@@ -36,6 +36,9 @@ import ParticipateHome from './src/scenes/Participate'
 import Pin from './src/scenes/Pin'
 import FirstTime from './src/scenes/FirstTime'
 import TransactionSuccess from './src/scenes/TransactionSuccess'
+import MakePayScene from './src/scenes/Payments/Make'
+import PaymentsScene from './src/scenes/Payments'
+import ScanPayScene from './src/scenes/Payments/Scan'
 
 import Client from './src/services/client'
 import { Context } from './src/store/context'
@@ -51,7 +54,6 @@ if (!__DEV__) {
     disableNativeIntegration: Platform.OS === 'android'
   }).install()
 }
-
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 
@@ -80,7 +82,10 @@ const BalanceStack = createStackNavigator({
   BalanceScene,
   ReceiveScene,
   FreezeScene,
-  SendScene
+  SendScene,
+  PaymentsScene,
+  MakePayScene,
+  ScanPayScene
 })
 
 const TransactionList = createStackNavigator({
