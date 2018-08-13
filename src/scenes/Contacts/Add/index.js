@@ -1,7 +1,7 @@
 import React, { PureComponent } from 'react'
 
 import NavigationHeader from '../../../components/Navigation/Header'
-import ContactsForm from '../ContactsForm'
+import AddressForm from '../../../components/AddressBook/AddressForm'
 import { Container, Content } from '../../../components/Utils'
 
 export default class EditContact extends PureComponent {
@@ -23,7 +23,7 @@ export default class EditContact extends PureComponent {
     return (
       <Container>
         <Content>
-          <ContactsForm
+          <AddressForm
             navigation={navigation}
             contact={contact}
             submit={this._onSubmit}

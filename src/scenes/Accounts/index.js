@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { FlatList } from 'react-native'
 
-import { Container } from '../../components/Utils'
-import FadeIn from '../../components/Animations/FadeIn'
-import AddressCard from '../../components/AddressCard'
+import AddressBook from '../../components/AddressBook'
 
 // Mock state
 const accounts = [{
@@ -22,30 +19,12 @@ export default class Contacts extends Component {
     accounts
   }
 
-  _onCardPress = (item) => {
-
-  }
-
-  _renderCard = ({ item }) => (
-    <AddressCard
-      item={item}
-      onCardPress={() => { this._onCardPress(item) }}
-    />
-  )
-
   render () {
     const { accounts } = this.state
+    const { navigation } = this.props
 
     return (
-      <Container>
-        <FadeIn name='accounts'>
-          <FlatList
-            keyExtractor={item => item.address}
-            data={accounts}
-            renderItem={this._renderCard}
-          />
-        </FadeIn>
-      </Container>
+      <AddressBook items={accounts} navigation={navigation} />
     )
   }
 }

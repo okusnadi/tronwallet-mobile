@@ -1,14 +1,14 @@
 import React, { Component } from 'react'
 import { Text } from 'react-native'
 
-import NavigationHeader from '../../../components/Navigation/Header'
-import ContactsForm from '../ContactsForm'
-import ClearButton from '../../../components/ClearButton'
-import { Container, Content } from '../../../components/Utils'
+import NavigationHeader from '../../components/Navigation/Header'
+import AddressForm from '../../components/AddressBook/AddressForm'
+import ClearButton from '../../components/ClearButton'
+import { Container, Content } from '../../components/Utils'
 
 export default class EditContact extends Component {
   static navigationOptions = ({navigation}) => {
-    const { address } = navigation.getParam('contact', {})
+    const { address } = navigation.getParam('item', {})
     return ({
       header: <NavigationHeader title='EDIT' onBack={() => navigation.goBack()} rightButton={(
         <ClearButton onPress={() => {
@@ -19,7 +19,7 @@ export default class EditContact extends Component {
   }
 
   state = {
-    contact: this.props.navigation.getParam('contact', {})
+    contact: this.props.navigation.getParam('item', {})
   }
 
   render () {
@@ -30,7 +30,7 @@ export default class EditContact extends Component {
       <Container>
         <Content>
           {contact.address ? (
-            <ContactsForm contact={contact} navigation={navigation} />
+            <AddressForm contact={contact} navigation={navigation} />
           ) : (
             <Text>There was a problem with this contact! WOOOOOO WOOO AMBULANCE!!!</Text>
           )}

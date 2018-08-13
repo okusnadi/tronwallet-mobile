@@ -39,7 +39,7 @@ import FirstTime from './src/scenes/FirstTime'
 import TransactionSuccess from './src/scenes/TransactionSuccess'
 import AccountsScene from './src/scenes/Accounts'
 import ContactsScene from './src/scenes/Contacts'
-import EditContactScene from './src/scenes/Contacts/Edit'
+import EditAddressBookItem from './src/scenes/EditAddressBookItem'
 import AddContactScene from './src/scenes/Contacts/Add'
 import NavigationHeader from './src/components/Navigation/Header'
 
@@ -84,7 +84,6 @@ const SettingsStack = createStackNavigator({
 
 const tabWidth = ScreenSize.width / 2
 const indicatorWidth = 15
-const LoginTabsPadding = 20 + 12
 const AddressBookTabs = createMaterialTopTabNavigator(
   {
     Contacts: ContactsScene,
@@ -116,7 +115,7 @@ const AddressBookTabs = createMaterialTopTabNavigator(
 
 const AddressBookStack = createStackNavigator({
     AddressBook: AddressBookTabs,
-    EditContact: EditContactScene,
+    EditAddressBookItem,
     AddContact: AddContactScene
   }, {
     navigationOptions: {

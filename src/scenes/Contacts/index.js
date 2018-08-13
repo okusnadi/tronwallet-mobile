@@ -1,11 +1,7 @@
 import React, { Component } from 'react'
-import { FlatList } from 'react-native'
 
-import ContactsModal from './ContactsModal'
+import AddressBook from '../../components/AddressBook'
 import FloatingButton from '../../components/FloatingButton'
-import { Container } from '../../components/Utils'
-import FadeIn from '../../components/Animations/FadeIn'
-import AddressCard from '../../components/AddressCard'
 
 // Mock state
 const contacts = [{
@@ -27,31 +23,7 @@ const contacts = [{
 
 export default class Contacts extends Component {
   state = {
-    contacts: contacts,
-    modalVisible: false,
-    currentContact: null
-  }
-
-  _closeContactsModal = () => {
-    this.setState({
-      modalVisible: false,
-      currentContact: null
-    })
-  }
-
-  _onCardPress = (item) => {
-    this.setState({
-      modalVisible: true,
-      currentContact: item
-    })
-  }
-
-  _onEditPress = () => {
-    const { navigation } = this.props
-    const { currentContact } = this.state
-
-    this._closeContactsModal()
-    navigation.navigate('EditContact', { contact: currentContact })
+    contacts: contacts
   }
 
   _onAddPress = () => {
@@ -60,34 +32,14 @@ export default class Contacts extends Component {
     navigation.navigate('AddContact')
   }
 
-  _renderCard = ({ item }) => (
-    <AddressCard
-      item={item}
-      onCardPress={() => { this._onCardPress(item) }}
-    />
-  )
-
   render () {
-    const { contacts, modalVisible } = this.state
+    const { contacts } = this.state
+    const { navigation } = this.props
 
     return (
-      <Container style={{position: 'relative'}}>
-        <ContactsModal
-          visible={modalVisible}
-          closeModal={this._closeContactsModal}
-          animationType='fade'
-          onPressEdit={this._onEditPress}
-          onPressSend={() => {}}
-        />
-        <FadeIn name='contacts'>
-          <FlatList
-            keyExtractor={item => item.address}
-            data={contacts}
-            renderItem={this._renderCard}
-          />
-        </FadeIn>
+      <AddressBook items={contacts} navigation={navigation}>
         <FloatingButton text='ADD CONTACT' onPress={this._onAddPress} />
-      </Container>
+      </AddressBook>
     )
   }
 }
