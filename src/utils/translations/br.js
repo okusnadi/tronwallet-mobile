@@ -57,7 +57,7 @@ const components = {
     votesRemaining: 'VOTOS RESTANTES',
     setVote: 'VOTAR',
     moreVotes: 'Se você precisar de mais votos você pode Congelar mais TRX.',
-    confirmVotes: 'CONFIRMAR VOTOS',
+    confirmVotes: 'CONFIRMAR',
     yourVotes: 'Seus Votos',
     myVotes: 'MEUS VOTOS',
     confirm: 'CONFIRMAR',
