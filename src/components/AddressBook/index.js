@@ -1,15 +1,23 @@
 import React, { PureComponent } from 'react'
 import { FlatList } from 'react-native'
 
+import { Container } from '../Utils'
 import AddressModal from './AddressModal'
 import AddressCard from './AddressCard'
-import { Container } from '../../components/Utils'
-import FadeIn from '../../components/Animations/FadeIn'
 
 export default class Contacts extends PureComponent {
   state = {
     modalVisible: false,
-    currentItem: null
+    currentItem: null,
+    refreshing: false
+  }
+
+  _onRefresh = () => {
+    const { reloadData } = this.props
+
+    this.setState({refreshing: true})
+    reloadData()
+    this.setState({refreshing: false})
   }
 
   _closeModal = () => {
@@ -53,7 +61,7 @@ export default class Contacts extends PureComponent {
   )
 
   render () {
-    const { modalVisible } = this.state
+    const { modalVisible, refreshing } = this.state
     const { items, children } = this.props
 
     return (
@@ -65,13 +73,13 @@ export default class Contacts extends PureComponent {
           onPressEdit={this._onEditPress}
           onPressSend={this._onSendPress}
         />
-        <FadeIn name='items'>
-          <FlatList
-            keyExtractor={item => item.address}
-            data={items}
-            renderItem={this._renderCard}
-          />
-        </FadeIn>
+        <FlatList
+          keyExtractor={item => item.address}
+          data={items}
+          refreshing={refreshing}
+          onRefresh={this._onRefresh}
+          renderItem={this._renderCard}
+        />
         {children}
       </Container>
     )
