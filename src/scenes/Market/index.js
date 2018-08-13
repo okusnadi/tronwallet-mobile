@@ -201,8 +201,8 @@ class MarketScene extends Component {
               {this._renderValue(low, decimalFormatter)}
             </Fragment>
           )}
-          {this._renderValue(marketcap, integerFormatter)}
           {this._renderValue(volume, integerFormatter)}
+          {this._renderValue(marketcap, integerFormatter)}
           {this._renderValue(supply, supplyFormatter, true)}
         </Utils.View>
       </FadeIn>
