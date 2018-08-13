@@ -44,7 +44,7 @@ const balance = {
 const components = {
   share: {
     title: 'Partager votre adresse TronWallet',
-    message: `Ceci est mon adresse TronWallet:\n\n {{address}}\n\nAstuce: Une fois que vous l\'avez copié, vous pouvez la coller dans votre application TronWallet en utilisant le bouton spécial sur l\'écran d\'envoi.`,
+    message: `Ceci est mon adresse TronWallet:\n\n {{address}}\n\nAstuce: Une fois que vous l'avez copié, vous pouvez la coller dans votre application TronWallet en utilisant le bouton spécial sur l'écran d'envoi.`,
     dialogTitle: 'Partager en utilisant:'
   },
   QRScanner: {
@@ -191,7 +191,7 @@ const seed = {
     error: 'Une erreur est survenue. Veuillez redémarrer l\'application.',
     generateNew: 'Ceci générera un nouveau portefeuille.',
     button: {
-      written: `JE L\'AI ECRIT EN BAS`,
+      written: `JE L'AI ECRIT EN BAS`,
       newSeed: 'GENERER DE NOUVEAUX MOTS',
       later: 'Confirmer plus tard'
     }

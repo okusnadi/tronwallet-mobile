@@ -43,7 +43,7 @@ const LANGUAGES = [
   { key: 'en-US', value: 'English' },
   { key: 'pt-BR', value: 'Português' },
   { key: 'fr-FR', value: 'Français' },
-  { key: 'nl-NL', value: 'Nederlands' },
+  { key: 'nl-NL', value: 'Nederlands' }
 ]
 
 class Settings extends Component {

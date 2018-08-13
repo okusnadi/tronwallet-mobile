@@ -490,11 +490,14 @@ class TransactionDetails extends React.Component {
   _onRefresh = async () => {
     const { item } = this.state
     this.setState({ refreshing: true })
-
-    await updateTransactionByHash(item.id)
-    const transaction = await this._getTransactionByHash(item.id)
-
-    this.setState({ item: transaction, refreshing: false })
+    try {
+      await updateTransactionByHash(item.id)
+      const transaction = await this._getTransactionByHash(item.id)
+      this.setState({ item: transaction, refreshing: false })
+    } catch (e) {
+      console.log('Either the transaction is as of yet unconfirmed or there was a problem with the request.')
+      this.setState({refreshing: false})
+    }
   }
 
   _getTransactionByHash = async (hash) => {
@@ -506,13 +509,14 @@ class TransactionDetails extends React.Component {
   }
 
   render () {
-    const { item } = this.state
+    const { item, refreshing } = this.state
+
     return (
       <Utils.Container>
         <ScrollView
           refreshControl={
             <RefreshControl
-              refreshing={this.state.refreshing}
+              refreshing={refreshing}
               onRefresh={this._onRefresh}
             />
           }
