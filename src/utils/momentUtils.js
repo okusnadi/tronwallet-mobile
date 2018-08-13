@@ -30,6 +30,22 @@ const relativeTime = {
     MM: '%d mois',
     y: 'un an',
     yy: '%d années'
+  },
+  nl: {
+    future: 'in %s',
+    past: '%s geleden',
+    s: 'een seconde',
+    ss: '%d seconden',
+    m: 'een minuut',
+    mm: '%d minuten',
+    h: 'een uur',
+    hh: '%d uur',
+    d: 'een dag',
+    dd: '%d dagen',
+    M: 'een maand',
+    MM: '%d maanden',
+    y: 'een jaar',
+    yy: '%d jaar'
   }
 }
 

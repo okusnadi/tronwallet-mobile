@@ -42,7 +42,8 @@ const LANGUAGES = [
   { value: tl.t('cancel') },
   { key: 'en-US', value: 'English' },
   { key: 'pt-BR', value: 'Português' },
-  { key: 'fr-FR', value: 'Français' }
+  { key: 'fr-FR', value: 'Français' },
+  { key: 'nl-NL', value: 'Nederlands' },
 ]
 
 class Settings extends Component {
@@ -118,7 +119,7 @@ class Settings extends Component {
       const language = LANGUAGES[index]
       try {
         await AsyncStorage.setItem(USER_PREFERRED_LANGUAGE, language.key)
-        this.refs.languageToast.show(tl.t('settings.language.sucess', { language: language.value }))
+        this.refs.languageToast.show(tl.t('settings.language.success', { language: language.value }))
       } catch (e) {
         this.refs.languageToast.show(tl.t('settings.language.error'))
       }
