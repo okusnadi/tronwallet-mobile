@@ -44,7 +44,7 @@ class SendScene extends Component {
   }
   state = {
     from: '',
-    to: '',
+    to: this.props.navigation.getParam('address', ''),
     amount: '',
     token: 'TRX',
     addressError: null,
