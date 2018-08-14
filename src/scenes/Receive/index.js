@@ -18,14 +18,8 @@ import tl from '../../utils/i18n'
 import { withContext } from '../../store/context'
 
 class ReceiveScreen extends PureComponent {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <NavigationHeader title={tl.t('receive.title')}
-          onBack={() => { navigation.goBack() }}
-        />
-      )
-    }
+  static navigationOptions = {
+    header: null
   }
 
   state = {
@@ -57,6 +51,9 @@ class ReceiveScreen extends PureComponent {
 
     return (
       <KeyboardScreen>
+        <NavigationHeader title={tl.t('receive.title')}
+          onBack={() => { this.props.navigation.goBack() }}
+        />
         <Utils.Content align='center'>
           <Utils.VerticalSpacer size='medium' />
           {!!publicKey && <QRCode value={publicKey} onLoad={this._onLoad} loading={this.state.loading} size={width * 0.5} />}

@@ -18,15 +18,8 @@ const TAB_WIDTH = SCREENSIZE.width / 2
 const INDICATOR_WIDTH = 10
 
 export default class TransferScene extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <NavigationHeader
-          title='RECEIVE'
-          onBack={() => { navigation.goBack() }}
-        />
-      )
-    }
+  static navigationOptions = {
+    header: null
   }
 
   state = {
@@ -71,13 +64,19 @@ export default class TransferScene extends Component {
 
   render () {
     return (
-      <TabViewAnimated
-        navigationState={this.state}
-        renderScene={this._renderScene}
-        renderHeader={this._renderHeader}
-        onIndexChange={this._handleIndexChange}
-        initialLayout={initialLayout}
-      />
+      <React.Fragment>
+        <NavigationHeader
+          title='RECEIVE'
+          onBack={() => { this.props.navigation.goBack() }}
+        />
+        <TabViewAnimated
+          navigationState={this.state}
+          renderScene={this._renderScene}
+          renderHeader={this._renderHeader}
+          onIndexChange={this._handleIndexChange}
+          initialLayout={initialLayout}
+        />
+      </React.Fragment>
     )
   }
 }
