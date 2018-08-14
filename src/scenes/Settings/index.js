@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import {
   StyleSheet,
   View,
@@ -6,8 +7,11 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  Modal,
+  WebView
 } from 'react-native'
+
 import ActionSheet from 'react-native-actionsheet'
 import Toast from 'react-native-easy-toast'
 import { Answers } from 'react-native-fabric'
@@ -31,6 +35,7 @@ import { withContext } from '../../store/context'
 import { restartAllWalletData } from '../../utils/userAccountUtils'
 import { getUserSecrets } from '../../utils/secretsUtils'
 import Client from '../../services/client'
+import Loading from '../../components/LoadingScene'
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 const resetAction = StackActions.reset({
@@ -57,7 +62,9 @@ class Settings extends Component {
     seed: null,
     loading: true,
     subscriptionStatus: null,
-    changingSubscription: false
+    changingSubscription: false,
+    modalVisible: false,
+    partnerUri: ''
   }
 
   componentDidMount () {
@@ -125,6 +132,8 @@ class Settings extends Component {
       }
     }
   }
+
+  _openPartnerLink = (partnerUri) => this.setState({ modalVisible: true, partnerUri })
 
   _renderList = () => {
     const { seed } = this.state
@@ -228,10 +237,14 @@ class Settings extends Component {
         })}
         <SectionTitle>{tl.t('settings.partners')}</SectionTitle>
         <Utils.Row justify='center'>
-          <PayPartner source={require('../../assets/paysponsor.png')} />
+          <TouchableWithoutFeedback onPress={() => this._openPartnerLink('https://www.hummingpay.com/')}>
+            <PayPartner source={require('../../assets/paysponsor.png')} />
+          </TouchableWithoutFeedback>
           <Utils.HorizontalSpacer size='large' />
           <Utils.HorizontalSpacer size='large' />
-          <Getty source={require('../../assets/gettysponsor.png')} />
+          <TouchableWithoutFeedback onPress={() => this._openPartnerLink('https://getty.io/')}>
+            <Getty source={require('../../assets/gettysponsor.png')} />
+          </TouchableWithoutFeedback>
         </Utils.Row>
         <VersionText>{`v${ConfigJson.version}`}</VersionText>
       </ScrollView>
@@ -239,6 +252,7 @@ class Settings extends Component {
   }
 
   render () {
+    const { partnerUri, modalVisible } = this.state
     const languageOptions = LANGUAGES.map(language => language.value)
 
     return (
@@ -260,6 +274,18 @@ class Settings extends Component {
           fadeOutDuration={1250}
           opacity={0.8}
         />
+        <Modal
+          animationType='slide'
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => this.setState({ modalVisible: false })}
+        >
+          <WebView
+            source={{ uri: partnerUri }}
+            renderLoading={() => <Loading />}
+            startInLoadingState
+          />
+        </Modal>
         <ScrollView>
           {this._renderList()}
         </ScrollView>
