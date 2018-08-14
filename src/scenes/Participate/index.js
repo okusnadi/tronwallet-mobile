@@ -193,7 +193,6 @@ class ParticipateHome extends React.Component {
         <Row justify='space-between' align='center'>
           {verified ? (
             <Row align='center'>
-              <Image source={require('../../assets/tron-logo-small.png')} style={{ height: 36, width: 36 }} />
               <HorizontalSpacer size={8} />
 
               <FeaturedTokenName>{name}</FeaturedTokenName>

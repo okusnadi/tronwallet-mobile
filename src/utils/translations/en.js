@@ -230,7 +230,7 @@ const send = {
 const settings = {
   title: 'SETTINGS',
   notifications: {
-    title: 'Notifications Subscription',
+    title: 'Notifications',
     description: 'Enable or disable push notifications'
   },
   network: {
@@ -280,7 +280,7 @@ const settings = {
     button: 'OK, I understand it'
   },
   language: {
-    title: 'Change Language',
+    title: 'Language',
     description: 'Change the app Language',
     choose: 'Please, choose a Language below:',
     success: 'Language changed to {{language}}, please restart the app',

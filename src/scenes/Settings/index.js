@@ -208,9 +208,6 @@ class Settings extends Component {
                       <Utils.Text lineHeight={20} size='small'>
                         {item.title}
                       </Utils.Text>
-                      <Utils.Text lineHeight={20} size='xsmall' secondary>
-                        {item.description}
-                      </Utils.Text>
                     </Utils.View>
                   </Utils.Row>
                   {(!!item.onPress && !item.right) && (

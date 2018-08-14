@@ -118,11 +118,11 @@ const market = {
 
 const participate = {
   title: 'PARTICIPAÇÃO',
-  featured: 'DESTAQUE',
+  featured: 'EM DESTAQUE',
   button: {
     confirm: 'CONFIRMAR',
     moreInfo: 'MAIS',
-    buyNow: 'COMPRAR AGORA'
+    buyNow: 'COMPRAR'
   },
   error: {
     insufficientBalance: 'Saldo insuficiente (TRX) para participar.',
