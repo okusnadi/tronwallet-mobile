@@ -1,11 +1,12 @@
-import React, { PureComponent } from 'react'
+import React, { Component } from 'react'
 import { FlatList } from 'react-native'
+import styled from 'styled-components'
 
 import { Container } from '../Utils'
 import AddressModal from './AddressModal'
 import AddressCard from './AddressCard'
 
-export default class Contacts extends PureComponent {
+export default class Contacts extends Component {
   state = {
     modalVisible: false,
     currentItem: null,
@@ -60,6 +61,18 @@ export default class Contacts extends PureComponent {
     />
   )
 
+  _renderEmpty = () => {
+    const TemporaryEmptyComponent = styled.Text`
+      font-family: Rubik-Regular;
+      font-size: 16px;
+      padding: 40px;
+      color: white;
+    `
+    return (
+      <TemporaryEmptyComponent>Your Address Book list is empty. Add a new Contact or Account.</TemporaryEmptyComponent>
+    )
+  }
+
   render () {
     const { modalVisible, refreshing } = this.state
     const { items, children } = this.props
@@ -79,6 +92,7 @@ export default class Contacts extends PureComponent {
           refreshing={refreshing}
           onRefresh={this._onRefresh}
           renderItem={this._renderCard}
+          ListEmptyComponent={this._renderEmpty}
         />
         {children}
       </Container>

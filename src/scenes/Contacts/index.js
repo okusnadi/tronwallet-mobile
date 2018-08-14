@@ -3,25 +3,7 @@ import React, { Component } from 'react'
 import AddressBook from '../../components/AddressBook'
 import FloatingButton from '../../components/FloatingButton'
 
-import getContactsFromStore from '../../store/contacts'
-
-// Mock state
-// const contacts = [{
-//   name: 'Fabiana',
-//   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
-// }, {
-//   name: 'Fabio',
-//   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
-// }, {
-//   name: 'Fernando',
-//   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
-// }, {
-//   name: 'Guilherme',
-//   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
-// }, {
-//   name: 'Heliporto Guarulhos',
-//   address: '4a1746f2f2842a8526185cf6f9f91b3217af564daa3c'
-// }]
+import { getContactsFromStore } from '../../utils/contactUtils'
 
 export default class Contacts extends Component {
   state = {
@@ -29,25 +11,28 @@ export default class Contacts extends Component {
     refreshing: false
   }
 
-  componentDidMount () {
-    this._loadContacts()
+  async componentDidMount () {
+    await this._loadContacts()
+
+    this.didFocusSubscription = this.props.navigation.addListener(
+      'didFocus',
+      async () => {
+        await this._loadContacts()
+      }
+    )
+  }
+
+  componentWillUnmount () {
+    this.didFocusSubscription.remove()
   }
 
   _loadContacts = async () => {
-    const contacts = await this._getContactsFomStore()
-
-    this.setState({
-      contacts
-    })
-  }
-
-  _getContactsFomStore = async () => {
     try {
-      const store = await getContactsFromStore()
-
-      return store
-        .objects('Contact')
-        .map(item => Object.assign({}, item))
+      const contacts = await getContactsFromStore()
+      this.setState({
+        contacts,
+        error: null
+      })
     } catch (e) {
       this.setState({
         error: 'There was a problem loading the contacts. Please try again.'
