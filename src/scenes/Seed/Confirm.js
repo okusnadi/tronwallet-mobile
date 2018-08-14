@@ -126,7 +126,7 @@ class Confirm extends React.Component {
     const { loading } = this.state
 
     return (
-      <Utils.Container>
+      <Utils.Container testID='ConfirmSeed'>
         <ScrollView>
           <Utils.Content align='center' justify='center'>
             <Utils.Text>
@@ -147,7 +147,7 @@ class Confirm extends React.Component {
               ))}
             </Utils.Row>
             <Utils.View height={1} backgroundColor={Colors.secondaryText} marginY={16} />
-            <Utils.Row wrap='wrap' justify='center'>
+            <Utils.Row wrap='wrap' justify='center' testID='remainingWords'>
               {this.state.remainingWords.map((word, index) => (
                 <FadeIn name={`${index}`} key={index}>
                   <WordWrapper
@@ -172,6 +172,7 @@ class Confirm extends React.Component {
             <Utils.HorizontalSpacer size='large' />
             <Utils.View align='center' paddingY='medium'>
               <ButtonGradient
+                testID='ConfirmButton'
                 text={tl.t('seed.confirm.button.confirm')}
                 disabled={loading || this.state.selected.length < 12}
                 onPress={this._handleSubmit}

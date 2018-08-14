@@ -41,7 +41,6 @@ class Create extends React.Component {
     try {
       await this._getMnemonic()
     } catch (err) {
-      console.log(err)
       Alert.alert(tl.t('seed.create.error'))
     }
   }
@@ -53,7 +52,6 @@ class Create extends React.Component {
       await createUserKeyPair(pin, oneSignalId)
       await this._getMnemonic()
     } catch (e) {
-      console.log(e)
       this.setState({
         error: 'Oops, we have a problem. Please restart the application.'
       })
@@ -65,7 +63,6 @@ class Create extends React.Component {
       const { mnemonic } = await getUserSecrets(this.props.context.pin)
       this.setState({ seed: mnemonic })
     } catch (e) {
-      console.log(e)
       this.setState({
         error: 'Oops, we have a problem. Please restart the application.'
       })
