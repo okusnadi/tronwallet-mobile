@@ -16,7 +16,7 @@ export const orderBalances = (balances) => {
   ]
 }
 
-export const getPrice = async (currency) => {
+export const getPrice = async (currency = 'USD') => {
   try {
     const { data: { data } } = await axios.get(`${Config.TRX_PRICE_API}/?convert=${currency}`)
     return data.quotes[currency].price
