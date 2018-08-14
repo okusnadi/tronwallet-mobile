@@ -33,9 +33,7 @@ class DataError extends Error {
 }
 
 class MakePayment extends PureComponent {
-    static navigationOptions = () => {
-      return { header: null }
-    }
+    static navigationOptions = { header: null }
 
     state = {
       loading: false,

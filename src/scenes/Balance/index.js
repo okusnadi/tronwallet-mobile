@@ -9,7 +9,6 @@ import { Answers } from 'react-native-fabric'
 import axios from 'axios'
 import Config from 'react-native-config'
 import ActionSheet from 'react-native-actionsheet'
-// import BackgroundFetch from 'react-native-background-fetch'
 
 import NavigationHeader from '../../components/Navigation/Header'
 import * as Utils from '../../components/Utils'
@@ -27,15 +26,13 @@ import getBalanceStore from '../../store/balance'
 import { getUserSecrets } from '../../utils/secretsUtils'
 import { updateAssets } from '../../utils/assetsUtils'
 import withContext from '../../utils/hocs/withContext'
-// import { updateTransactions } from '../../utils/transactionUtils'
-// import getTransactionStore from '../../store/transactions'
 
 const CURRENCIES = [tl.t('cancel'), 'USD', 'EUR', 'BTC', 'ETH']
 
 class BalanceScene extends Component {
-  static navigationOptions = () => ({
-    header: <NavigationHeader title={tl.t('balance.title')} />
-  })
+  static navigationOptions = {
+    header: null
+  }
 
   state = {
     refreshing: false,
@@ -61,47 +58,6 @@ class BalanceScene extends Component {
 
     // Update assets when you enter the wallet
     updateAssets()
-
-    // DISABLED BACKGROUND CHECK
-    // BackgroundFetch.configure({
-    //   minimumFetchInterval: 15,
-    //   stopOnTerminate: false,
-    //   startOnBoot: true,
-    //   enableHeadless: true
-    // }, async () => {
-    //   console.log('[js] Received background-fetch event')
-    //   try {
-    //     await updateTransactions(this.props.context.pin)
-    //     const store = await getTransactionStore()
-    //     const newTransactions = store.objects('Transaction').filtered('notified = false')
-    //     const transactions = newTransactions.map(item => item.id)
-    //     await Client.notifyNewTransactions(this.props.context.oneSignalId, transactions)
-    //     console.log('fetch transactions finished')
-    //   } catch (err) {
-    //     console.log('error', err)
-    //   }
-    //   // Required: Signal completion of your task to native code
-    //   // If you fail to do this, the OS can terminate your app
-    //   // or assign battery-blame for consuming too much background-time
-    //   BackgroundFetch.finish(BackgroundFetch.FETCH_RESULT_NEW_DATA)
-    // }, (error) => {
-    //   console.log('[js] RNBackgroundFetch failed to start', error)
-    // })
-
-    // // Optional: Query the authorization status.
-    // BackgroundFetch.status((status) => {
-    //   switch (status) {
-    //     case BackgroundFetch.STATUS_RESTRICTED:
-    //       console.log('BackgroundFetch restricted')
-    //       break
-    //     case BackgroundFetch.STATUS_DENIED:
-    //       console.log('BackgroundFetch denied')
-    //       break
-    //     case BackgroundFetch.STATUS_AVAILABLE:
-    //       console.log('BackgroundFetch is enabled')
-    //       break
-    //   }
-    // })
   }
 
   componentWillUnmount () {
@@ -179,42 +135,45 @@ class BalanceScene extends Component {
     } = this.state
 
     return (
-      <Utils.Container justify='flex-start' align='stretch'>
-        <ScrollView
-          refreshControl={
-            <RefreshControl
-              refreshing={this.state.refreshing}
-              onRefresh={this._onRefresh}
-            />
-          }
-        >
-          <Utils.Content paddingTop={2}>
-            <Utils.View minHeight={190}>
-              <ActionSheet
-                ref={ref => { this.ActionSheet = ref }}
-                title={tl.t('balance.chooseCurrency')}
-                options={CURRENCIES}
-                cancelButtonIndex={0}
-                onPress={index => this._handleCurrencyChange(index)}
+      <React.Fragment>
+        <NavigationHeader title={tl.t('balance.title')} />
+        <Utils.Container justify='flex-start' align='stretch'>
+          <ScrollView
+            refreshControl={
+              <RefreshControl
+                refreshing={this.state.refreshing}
+                onRefresh={this._onRefresh}
               />
-              <TouchableOpacity onPress={() => this.ActionSheet.show()}>
-                <TrxValue trxBalance={trxBalance} currency={currency} />
-              </TouchableOpacity>
-              <Utils.VerticalSpacer size='medium' />
-              {!!trxHistory.length && <LineChart chartHistory={trxHistory} />}
-              <Utils.VerticalSpacer size='medium' />
-              <TrxInfo currency={currency} />
-            </Utils.View>
-            <BalanceNavigation navigation={this.props.navigation} />
-            {!seedConfirmed && (
-              <BalanceWarning seed={seed} navigation={this.props.navigation}>
-                {tl.t('balance.confirmSeed')}
-              </BalanceWarning>
-            )}
-            <WalletBalances balances={balances} />
-          </Utils.Content>
-        </ScrollView>
-      </Utils.Container>
+            }
+          >
+            <Utils.Content paddingTop={2}>
+              <Utils.View minHeight={190}>
+                <ActionSheet
+                  ref={ref => { this.ActionSheet = ref }}
+                  title={tl.t('balance.chooseCurrency')}
+                  options={CURRENCIES}
+                  cancelButtonIndex={0}
+                  onPress={index => this._handleCurrencyChange(index)}
+                />
+                <TouchableOpacity onPress={() => this.ActionSheet.show()}>
+                  <TrxValue trxBalance={trxBalance} currency={currency} />
+                </TouchableOpacity>
+                <Utils.VerticalSpacer size='medium' />
+                {!!trxHistory.length && <LineChart chartHistory={trxHistory} />}
+                <Utils.VerticalSpacer size='medium' />
+                <TrxInfo currency={currency} />
+              </Utils.View>
+              <BalanceNavigation navigation={this.props.navigation} />
+              {!seedConfirmed && (
+                <BalanceWarning seed={seed} navigation={this.props.navigation}>
+                  {tl.t('balance.confirmSeed')}
+                </BalanceWarning>
+              )}
+              <WalletBalances balances={balances} />
+            </Utils.Content>
+          </ScrollView>
+        </Utils.Container>
+      </React.Fragment>
     )
   }
 }
