@@ -9,7 +9,7 @@ import { createIconSetFromFontello } from 'react-native-vector-icons'
 import axios from 'axios'
 import Config from 'react-native-config'
 import OneSignal from 'react-native-onesignal'
-import { Sentry, SentryLog } from 'react-native-sentry'
+import { Sentry } from 'react-native-sentry'
 
 import { Colors, ScreenSize  } from './src/components/DesignSystem'
 
@@ -42,6 +42,9 @@ import ContactsScene from './src/scenes/Contacts'
 import EditAddressBookItem from './src/scenes/EditAddressBookItem'
 import AddContactScene from './src/scenes/Contacts/Add'
 import NavigationHeader from './src/components/Navigation/Header'
+import MakePayScene from './src/scenes/Payments/Make'
+import PaymentsScene from './src/scenes/Payments'
+import ScanPayScene from './src/scenes/Payments/Scan'
 
 import Client from './src/services/client'
 import { Context } from './src/store/context'
@@ -57,7 +60,6 @@ if (!__DEV__) {
     disableNativeIntegration: Platform.OS === 'android'
   }).install()
 }
-
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 
@@ -128,7 +130,10 @@ const BalanceStack = createStackNavigator({
   BalanceScene,
   ReceiveScene,
   FreezeScene,
-  SendScene
+  SendScene,
+  PaymentsScene,
+  MakePayScene,
+  ScanPayScene
 })
 
 const TransactionList = createStackNavigator({

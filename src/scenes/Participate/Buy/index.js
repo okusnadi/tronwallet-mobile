@@ -232,7 +232,7 @@ class BuyScene extends Component {
             <AmountText>
               {formatNumber(amountToBuy)}
             </AmountText>
-            <TrxValueText>({formatNumber(amountToPay)} TRX)</TrxValueText>
+            <TrxValueText>({formatNumber(amountToPay, true)} TRX)</TrxValueText>
             {notEnoughTrxBalance && (
               <React.Fragment>
                 <VerticalSpacer size={4} />

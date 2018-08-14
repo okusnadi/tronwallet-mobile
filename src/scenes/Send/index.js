@@ -31,17 +31,10 @@ import getBalanceStore from '../../store/balance'
 import { withContext } from '../../store/context'
 
 class SendScene extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <NavigationHeader
-          title={tl.t('send.title')}
-          onBack={() => { navigation.goBack() }}
-          noBorder
-        />
-      )
-    }
+  static navigationOptions = {
+    header: null
   }
+
   state = {
     from: '',
     to: this.props.navigation.getParam('address', ''),
@@ -275,6 +268,11 @@ class SendScene extends Component {
     tokenOptions.unshift(tl.t('cancel'))
     return (
       <KeyboardScreen>
+        <NavigationHeader
+          title={tl.t('send.title')}
+          onBack={() => { this.props.navigation.goBack() }}
+          noBorder
+        />
         <Utils.Content>
           <ActionSheet
             ref={ref => { this.ActionSheet = ref }}

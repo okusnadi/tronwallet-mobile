@@ -230,7 +230,7 @@ const send = {
 const settings = {
   title: 'SETTINGS',
   notifications: {
-    title: 'Notifications Subscription',
+    title: 'Notifications',
     description: 'Enable or disable push notifications'
   },
   network: {
@@ -280,10 +280,10 @@ const settings = {
     button: 'OK, I understand it'
   },
   language: {
-    title: 'Change Language',
+    title: 'Language',
     description: 'Change the app Language',
     choose: 'Please, choose a Language below:',
-    sucess: 'Language changed to {{language}}, please restart the app',
+    success: 'Language changed to {{language}}, please restart the app',
     error: 'Error saving preferred language'
   },
   partners: 'PARTNERS'
@@ -298,7 +298,6 @@ const submitTransaction = {
   },
   disconnectedMessage: 'It seems that you are disconnected. Reconnect to the internet before proceeding with the transaction.',
   dic: {
-    fronzeBalance: 'Frozen Balance',
     contractType: 'Transaction Type',
     ownerAddress: 'From',
     toAddress: 'To',

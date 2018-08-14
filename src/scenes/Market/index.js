@@ -3,7 +3,7 @@ import axios from 'axios'
 import * as shape from 'd3-shape'
 import { AreaChart, Grid } from 'react-native-svg-charts'
 import { Path, Circle, G } from 'react-native-svg'
-import { ActivityIndicator, TouchableOpacity, Image } from 'react-native'
+import { ActivityIndicator, TouchableOpacity, Image, AsyncStorage } from 'react-native'
 import { Motion, spring, presets } from 'react-motion'
 import { Answers } from 'react-native-fabric'
 import Config from 'react-native-config'
@@ -13,8 +13,9 @@ import tl from '../../utils/i18n'
 import * as Utils from '../../components/Utils'
 import { Colors } from '../../components/DesignSystem'
 import FadeIn from '../../components/Animations/FadeIn'
-
-const PRICE_PRECISION = 4
+import { getPrice } from '../../utils/balanceUtils'
+import { formatNumber } from '../../utils/numberUtils'
+import { USER_PREFERRED_CURRENCY } from '../../utils/constants'
 
 const Line = ({ line }) => (
   <Path
@@ -82,12 +83,15 @@ class MarketScene extends Component {
   }
 
   _loadData = async () => {
+    const currency = await AsyncStorage.getItem(USER_PREFERRED_CURRENCY)
+    const price = await getPrice(currency)
     const { data: { data } } = await axios.get(Config.TRX_PRICE_API)
+
     this.setState({
       marketcap: data.quotes.USD.market_cap,
       volume: data.quotes.USD.volume_24h,
       supply: data.circulating_supply,
-      price: data.quotes.USD.price
+      price
     })
   }
 
@@ -174,7 +178,7 @@ class MarketScene extends Component {
               >
                 {value => (
                   <Utils.Text size='medium'>
-                    $ {value.data.toFixed(PRICE_PRECISION)}
+                    $ {formatNumber(value.data)}
                   </Utils.Text>
                 )}
               </Motion>
@@ -201,8 +205,8 @@ class MarketScene extends Component {
               {this._renderValue(low, decimalFormatter)}
             </Fragment>
           )}
-          {this._renderValue(marketcap, integerFormatter)}
           {this._renderValue(volume, integerFormatter)}
+          {this._renderValue(marketcap, integerFormatter)}
           {this._renderValue(supply, supplyFormatter, true)}
         </Utils.View>
       </FadeIn>

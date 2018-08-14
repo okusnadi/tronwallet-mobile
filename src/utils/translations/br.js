@@ -10,7 +10,7 @@ const general = {
     clipboardCopied: 'Algo deu errado ao copiar.'
   },
   tronPower: 'FORÇA TRON',
-  trxPrice: 'PREÇO DO TRX',
+  trxPrice: 'PREÇO TRX',
   confirmed: 'Confirmado',
   unconfirmed: 'Não Confirmado',
   transactionType: {
@@ -36,9 +36,9 @@ const balance = {
   },
   chooseCurrency: 'Por favor, escolha sua moeda preferida',
   confirmSeed: 'Por favor, toque para confirmar suas 12 palavras',
-  bandwidth: 'LARGURA DE BANDA',
+  bandwidth: 'BANDA',
   tokens: 'MOEDAS',
-  holdings: 'POSSES'
+  holdings: 'QTD'
 }
 
 const components = {
@@ -57,7 +57,7 @@ const components = {
     votesRemaining: 'VOTOS RESTANTES',
     setVote: 'VOTAR',
     moreVotes: 'Se você precisar de mais votos você pode Congelar mais TRX.',
-    confirmVotes: 'CONFIRMAR VOTOS',
+    confirmVotes: 'CONFIRMAR',
     yourVotes: 'Seus Votos',
     myVotes: 'MEUS VOTOS',
     confirm: 'CONFIRMAR',
@@ -118,11 +118,11 @@ const market = {
 
 const participate = {
   title: 'PARTICIPAÇÃO',
-  featured: 'DESTAQUE',
+  featured: 'EM DESTAQUE',
   button: {
     confirm: 'CONFIRMAR',
-    moreInfo: 'MAIS INFORMAÇÃO',
-    buyNow: 'COMPRAR AGORA'
+    moreInfo: 'MAIS',
+    buyNow: 'COMPRAR'
   },
   error: {
     insufficientBalance: 'Saldo insuficiente (TRX) para participar.',
@@ -154,7 +154,7 @@ const participate = {
 
 const pin = {
   title: 'VERIFICAÇÃO DE SEGURANÇA',
-  enter: 'Coloque o PIN',
+  enter: 'Digite o PIN',
   reenter: 'Redigite o PIN'
 }
 
@@ -198,7 +198,7 @@ const seed = {
   },
   restore: {
     title: 'RESTAURAR CARTEIRA',
-    explanation: `Para restaura sua carteira, por favor forneça as mesmas 12 palavras que você anotou no papel quando criou sua carteira pela primeira vez. Se você entrar com uma sequência diferente de palavras, uma nova carteira vazia será criada.`,
+    explanation: `Para restaurar sua carteira, por favor forneça as mesmas 12 palavras que você anotou no papel quando criou sua carteira pela primeira vez. Se você entrar com uma sequência diferente de palavras, uma nova carteira vazia será criada.`,
     placeholder: 'Por favor, digite suas 12 palavras aqui',
     success: 'Carteira restaurada com sucesso!',
     warning: 'Restaurar o seed vai apagar todos os dados neste dispositivo e puxar informações da rede para a conta restaurada.',
@@ -230,7 +230,7 @@ const send = {
 const settings = {
   title: 'CONFIGURAÇÕES',
   notifications: {
-    title: 'Assinatura de Notificações',
+    title: 'Notificações',
     description: 'Habilita ou desabilita recebimento de notificações'
   },
   network: {
@@ -280,10 +280,10 @@ const settings = {
     button: 'OK, eu entendo'
   },
   language: {
-    title: 'Mudar Idioma',
+    title: 'Alterar Idioma',
     description: 'Muda o idioma do aplicativo',
     choose: 'Por favor, escolha um Idioma abaixo:',
-    sucess: 'Idioma alterado para {{language}}, por favor reinicie o app',
+    success: 'Idioma alterado para {{language}}, por favor reinicie o app',
     error: 'Erro ao salvar Idioma'
   },
   partners: 'PARCEIROS'
@@ -298,7 +298,6 @@ const submitTransaction = {
   },
   disconnectedMessage: 'Parece que você está desconectado. Reconecte-se à internet antes de proceder com essa transação.',
   dic: {
-    fronzeBalance: 'Saldo Congelado',
     contractType: 'Tipo de Transação',
     ownerAddress: 'De',
     toAddress: 'Para',

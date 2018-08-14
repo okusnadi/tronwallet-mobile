@@ -21,17 +21,10 @@ import { withContext } from '../../store/context'
 import { formatNumber } from '../../utils/numberUtils'
 
 class FreezeScene extends Component {
-  static navigationOptions = ({ navigation }) => {
-    return {
-      header: (
-        <NavigationHeader
-          title={tl.t('freeze.title')}
-          onBack={() => { navigation.goBack() }}
-          noBorder
-        />
-      )
-    }
+  static navigationOptions = {
+    header: null
   }
+
   state = {
     from: '',
     balances: [],
@@ -198,6 +191,11 @@ class FreezeScene extends Component {
 
     return (
       <KeyboardScreen>
+        <NavigationHeader
+          title={tl.t('freeze.title')}
+          onBack={() => { this.props.navigation.goBack() }}
+          noBorder
+        />
         <Utils.Container>
           <Header>
             <Utils.View align='center'>

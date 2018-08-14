@@ -74,6 +74,7 @@ class Restore extends React.Component {
         />
         <Utils.Content paddingBottom='2'>
           <Utils.FormInput
+            testID='restoreInput'
             placeholder={tl.t('seed.restore.placeholder')}
             height={90}
             padding={16}
@@ -88,6 +89,7 @@ class Restore extends React.Component {
         </Utils.Content>
         <Utils.Content paddingTop='2' paddingBottom='4'>
           <ButtonGradient
+            testID='RestoreButton'
             disabled={!this.state.seed.length || loading}
             onPress={this._handleRestore}
             text={tl.t('seed.restore.button')}

@@ -119,7 +119,7 @@ PODS:
     - React
   - RNDeviceInfo (0.21.5):
     - React
-  - RNShare (1.1.0):
+  - RNI18n (2.0.15):
     - React
   - RNTron (1.0.0):
     - "NSData+FastHex"
@@ -133,7 +133,7 @@ PODS:
     - React
     - TrezorCrypto
   - RNTron/Services (1.0.0):
-    - gRPC-ProtoRPC (= 1.12.0)
+    - gRPC-ProtoRPC
     - "NSData+FastHex"
     - React
     - RNTron/Messages
@@ -173,7 +173,7 @@ DEPENDENCIES:
   - ReactNativeFabric (from `../node_modules/react-native-fabric`)
   - RNBackgroundFetch (from `../node_modules/react-native-background-fetch`)
   - RNDeviceInfo (from `../node_modules/react-native-device-info`)
-  - RNShare (from `../node_modules/react-native-share`)
+  - RNI18n (from `../node_modules/react-native-i18n`)
   - RNTron (from `../node_modules/react-native-tron/ios/`)
   - SentryReactNative (from `../node_modules/react-native-sentry`)
   - yoga (from `../node_modules/react-native/ReactCommon/yoga`)
@@ -215,8 +215,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-background-fetch"
   RNDeviceInfo:
     :path: "../node_modules/react-native-device-info"
-  RNShare:
-    :path: "../node_modules/react-native-share"
+  RNI18n:
+    :path: "../node_modules/react-native-i18n"
   RNTron:
     :path: "../node_modules/react-native-tron/ios/"
   SentryReactNative:
@@ -247,13 +247,13 @@ SPEC CHECKSUMS:
   ReactNativeFabric: 3912bf9c714d7cc98110eadf06ca6dedef219322
   RNBackgroundFetch: 8c4f77f83c398c659bce82af2f0a885079417b9e
   RNDeviceInfo: 568c5641057313b4912d08a7742ff0b2f753ed5c
-  RNShare: 40c92dc26432c51019b94dee6e5eb5097d75c794
+  RNI18n: 46b8694063fbd699f2c06a4dc8e835b3176763b1
   RNTron: e5cc70419d4fc1021255c7bffb764bbf3e8cc560
   Sentry: 7d3ea7176e5184e9c35c12a5825905345807e8c1
   SentryReactNative: 787a08161d641dde91dd36d4c8e76f9b0ba4fc84
   TrezorCrypto: ecef681446bf02af6248d3b5e394026d7e766e56
   yoga: a23273df0088bf7f2bb7e5d7b00044ea57a2a54a
 
-PODFILE CHECKSUM: 9169375697cfc092bed62f7beb1d7f48278146c7
+PODFILE CHECKSUM: c693f8133ddae429ff507ad69ed98dc78e1fb61c
 
-COCOAPODS: 1.5.3
+COCOAPODS: 1.5.2

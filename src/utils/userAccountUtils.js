@@ -4,6 +4,7 @@ import getBalanceStore from '../store/balance'
 import getTransactionStore from '../store/transactions'
 import getAssetsStore from '../store/assets'
 import getCandidatesStore from '../store/candidates'
+import { USER_STATUS } from './constants'
 
 import NodesIp from '../utils/nodeIp'
 // TODO
@@ -50,7 +51,7 @@ export const restartAllWalletData = async () => {
       resetWalletData(),
       resetListsData(),
       NodesIp.switchTestnet(false),
-      AsyncStorage.setItem('@TronWallet:useStatus', 'reset')
+      AsyncStorage.setItem(USER_STATUS, 'reset')
     ])
   } catch (error) {
     throw error

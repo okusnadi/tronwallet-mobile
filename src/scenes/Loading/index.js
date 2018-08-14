@@ -5,17 +5,20 @@ import SplashScreen from 'react-native-splash-screen'
 import * as Utils from '../../components/Utils'
 import { Colors } from '../../components/DesignSystem'
 
+import { updateAssets } from '../../utils/assetsUtils'
 import SecretStore from '../../store/secrets'
 import { withContext } from '../../store/context'
+import { USER_STATUS } from '../../utils/constants'
 
 class LoadingScene extends Component {
   async componentDidMount () {
+    await updateAssets(0, 1, 'twx')
     SplashScreen.hide()
     this._askPin()
   }
 
   _getUseStatus = async () => {
-    const useStatus = await AsyncStorage.getItem('@TronWallet:useStatus')
+    const useStatus = await AsyncStorage.getItem(USER_STATUS)
     if (useStatus === null || useStatus === 'reset') {
       return useStatus || true
     } else {
