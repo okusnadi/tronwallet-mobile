@@ -1,10 +1,6 @@
 import Config from 'react-native-config'
 import axios from 'axios'
 
-import { formatNumber } from './numberUtils'
-
-const CRYPTO = ['BTC', 'ETH']
-
 export const orderBalances = (balances) => {
   let orderedBalances = []
   balances.forEach((balance) => {
@@ -26,13 +22,5 @@ export const getPrice = async (currency) => {
     return data.quotes[currency].price
   } catch (err) {
     console.log(err)
-  }
-}
-
-export const formatPrice = (value, currency) => {
-  if (Number.isInteger(value) || CRYPTO.indexOf(currency) >= 0) {
-    return formatNumber(value)
-  } else {
-    return value.toFixed(2)
   }
 }

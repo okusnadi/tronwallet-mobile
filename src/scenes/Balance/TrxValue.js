@@ -2,13 +2,11 @@ import React, { PureComponent } from 'react'
 import PropTypes from 'prop-types'
 import { Motion, spring, presets } from 'react-motion'
 import { Context } from '../../store/context'
-import Config from 'react-native-config'
-import axios from 'axios'
 
 import FadeIn from '../../components/Animations/FadeIn'
 import Badge from '../../components/Badge'
 import * as Utils from '../../components/Utils'
-
+import { getPrice } from '../../utils/balanceUtils'
 import { formatNumber } from '../../utils/numberUtils'
 
 class TrxValue extends PureComponent {
@@ -16,31 +14,23 @@ class TrxValue extends PureComponent {
     currencyPrice: null
   }
 
-  componentDidUpdate (prevProps) {
+  async componentDidUpdate (prevProps) {
     const { currency: currentCurrency } = this.props
     const { currency: prevCurreny } = prevProps
 
     if (prevCurreny !== currentCurrency) {
-      this._getPrice(currentCurrency)
+      const price = await getPrice(currentCurrency)
+      this.setState({ currencyPrice: price })
     }
   }
 
-  _formatPrice = (value) => {
+  _formatBalance = (value, currency) => {
     const crypto = ['BTC', 'ETH']
-    const { currency } = this.props
-    // Im not using formatNumber directly because this is a custom formatter for balance screen
+
     if (Number.isInteger(value) || crypto.indexOf(currency) >= 0) {
       return formatNumber(value)
     } else {
       return value.toFixed(2)
-    }
-  }
-  _getPrice = async (currency) => {
-    try {
-      const { data: { data } } = await axios.get(`${Config.TRX_PRICE_API}/?convert=${currency}`)
-      this.setState({ currencyPrice: data.quotes[currency].price })
-    } catch (err) {
-      console.log(err)
     }
   }
 
@@ -65,7 +55,7 @@ class TrxValue extends PureComponent {
                 >
                   {value => (
                     <Utils.Text size='large' marginX={8}>
-                      {this._formatPrice(value.price)}
+                      {this._formatBalance(value.price, currency)}
                     </Utils.Text>
                   )}
                 </Motion>
