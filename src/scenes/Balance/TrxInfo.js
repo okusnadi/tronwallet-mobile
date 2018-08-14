@@ -1,17 +1,37 @@
 import React, { PureComponent } from 'react'
+import PropTypes from 'prop-types'
 import { Motion, spring, presets } from 'react-motion'
 import { Context } from '../../store/context'
 
 import tl from '../../utils/i18n'
 import FadeIn from '../../components/Animations/FadeIn'
 import * as Utils from '../../components/Utils'
+import { getPrice } from '../../utils/balanceUtils'
+import { formatNumber } from '../../utils/numberUtils'
 
 class TrxInfo extends PureComponent {
+  state = {
+    currencyPrice: null
+  }
+
+  async componentDidUpdate (prevProps) {
+    const { currency: currentCurrency } = this.props
+    const { currency: prevCurreny } = prevProps
+
+    if (prevCurreny !== currentCurrency) {
+      const price = await getPrice(currentCurrency)
+      this.setState({ currencyPrice: price })
+    }
+  }
+
   render () {
+    const { currency } = this.props
+    const { currencyPrice } = this.state
+
     return (
       <Context.Consumer>
-        {({ price, freeze }) =>
-          price.value &&
+        {({ freeze }) =>
+          currencyPrice &&
           freeze.value && (
             <FadeIn name='tronprice'>
               <Utils.VerticalSpacer size='medium' />
@@ -33,11 +53,11 @@ class TrxInfo extends PureComponent {
                   <Utils.Text size='xsmall' secondary>{tl.t('trxPrice')}</Utils.Text>
                   <Motion
                     defaultStyle={{ price: 0 }}
-                    style={{ price: spring(price.value, presets.gentle) }}
+                    style={{ price: spring(currencyPrice, presets.gentle) }}
                   >
                     {value => (
                       <Utils.Text padding={4}>
-                        {`${value.price.toFixed(this.props.pricePrecision)} USD`}
+                        {`${formatNumber(value.price)} ${currency}`}
                       </Utils.Text>
                     )}
                   </Motion>
@@ -70,8 +90,8 @@ class TrxInfo extends PureComponent {
   }
 }
 
-TrxInfo.defaultProps = {
-  pricePrecision: 4
+TrxInfo.propTypes = {
+  currency: PropTypes.string.isRequired
 }
 
 export default props => (

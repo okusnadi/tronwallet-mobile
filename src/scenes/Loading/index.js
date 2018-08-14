@@ -8,6 +8,7 @@ import { Colors } from '../../components/DesignSystem'
 import { updateAssets } from '../../utils/assetsUtils'
 import SecretStore from '../../store/secrets'
 import { withContext } from '../../store/context'
+import { USER_STATUS } from '../../utils/constants'
 
 class LoadingScene extends Component {
   async componentDidMount () {
@@ -17,7 +18,7 @@ class LoadingScene extends Component {
   }
 
   _getUseStatus = async () => {
-    const useStatus = await AsyncStorage.getItem('@TronWallet:useStatus')
+    const useStatus = await AsyncStorage.getItem(USER_STATUS)
     if (useStatus === null || useStatus === 'reset') {
       return useStatus || true
     } else {

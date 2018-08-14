@@ -5,17 +5,18 @@ import { AsyncStorage } from 'react-native'
 import getSecretsStore from '../store/secrets'
 import { resetWalletData } from './userAccountUtils'
 import Client from '../services/client'
+import { USER_STATUS } from '../utils/constants'
 
 export const createUserKeyPair = async (pin, oneSignalId) => {
   const mnemonic = await RNTron.generateMnemonic()
   await generateKeypair(pin, oneSignalId, mnemonic, true)
-  AsyncStorage.setItem('@TronWallet:useStatus', 'active')
+  AsyncStorage.setItem(USER_STATUS, 'active')
 }
 
 export const recoverUserKeypair = async (pin, oneSignalId, mnemonic, randomlyGenerated = false) => {
   await RNTron.validateMnemonic(mnemonic)
   await generateKeypair(pin, oneSignalId, mnemonic, randomlyGenerated)
-  AsyncStorage.setItem('@TronWallet:useStatus', 'active')
+  AsyncStorage.setItem(USER_STATUS, 'active')
 }
 
 const generateKeypair = async (pin, oneSignalId, mnemonic, randomlyGenerated) => {

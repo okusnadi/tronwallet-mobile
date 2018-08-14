@@ -161,7 +161,7 @@ class BalanceScene extends Component {
                 <Utils.VerticalSpacer size='medium' />
                 {!!trxHistory.length && <LineChart chartHistory={trxHistory} />}
                 <Utils.VerticalSpacer size='medium' />
-                <TrxInfo />
+                <TrxInfo currency={currency} />
               </Utils.View>
               <BalanceNavigation navigation={this.props.navigation} />
               {!seedConfirmed && (

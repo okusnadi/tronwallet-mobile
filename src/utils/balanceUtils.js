@@ -1,3 +1,6 @@
+import Config from 'react-native-config'
+import axios from 'axios'
+
 export const orderBalances = (balances) => {
   let orderedBalances = []
   balances.forEach((balance) => {
@@ -11,4 +14,13 @@ export const orderBalances = (balances) => {
     ...orderedBalances.filter((balance) => !!balance),
     ...balances.filter((balance) => balance.name !== 'TRX' && balance.name !== 'TWX')
   ]
+}
+
+export const getPrice = async (currency = 'USD') => {
+  try {
+    const { data: { data } } = await axios.get(`${Config.TRX_PRICE_API}/?convert=${currency}`)
+    return data.quotes[currency].price
+  } catch (err) {
+    console.log(err)
+  }
 }
