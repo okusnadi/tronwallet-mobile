@@ -53,20 +53,36 @@ export default class ContactsForm extends Component {
       await store.write(() => { store.create('Contact', contact, true) })
       this.props.navigation.goBack()
     } catch (e) {
-      // this._generalError(e)
-      console.log(e)
+      this.setState({
+        generalError: 'There was a problem submitting this form. Please contact an administrator.'
+      })
     }
   }
 
   _changeName = (name) => {
-    this._changeState(name, 'name', isNameValid, 'The name field must start with a letter and it will accept only letters, numbers and white spaces.')
+    this._changeState({
+      item: name,
+      type: 'name',
+      validation: isNameValid,
+      error: 'The name field must start with a letter and it will accept only letters, numbers and white spaces.'
+    })
   }
 
   _changeAddress = (address) => {
-    this._changeState(address.trim(), 'address', isAddressValid, 'Something isn\'t right with the address. Please double check for typos.')
+    this._changeState({
+      item: address.trim(),
+      type: 'address',
+      validation: isAddressValid,
+      error: 'Something isn\'t right with the address. Please double check for typos.'
+    })
   }
 
-  _validateState = async (item, type, validation, error) => {
+  _changeState = async (validationObj) => {
+    const stateObj = await this._validateState(validationObj)
+    this.setState({...stateObj})
+  }
+
+  _validateState = async ({item, type, validation, error}) => {
     const stateObj = {
       [type]: item,
       [`${type}Error`]: null
@@ -95,11 +111,6 @@ export default class ContactsForm extends Component {
     return stateObj
   }
 
-  _changeState = async (prop, type, validation, error) => {
-    const stateObj = await this._validateState(prop, type, validation, error)
-    this.setState({...stateObj})
-  }
-
   _submitDisabled = () => {
     const { name, address, generalError, nameError, addressError } = this.state
 
@@ -123,7 +134,7 @@ export default class ContactsForm extends Component {
   _rightContentTo = () => this.props.type === ADD ? <IconButton onPress={this._onPaste} icon='md-clipboard' /> : null
 
   render () {
-    const { name, address, nameError, addressError } = this.state
+    const { name, address, nameError, generalError, addressError } = this.state
     const { type } = this.props
 
     return (
@@ -163,6 +174,13 @@ export default class ContactsForm extends Component {
                 </React.Fragment>
               )}
               <VerticalSpacer size='medium' />
+              {generalError && (
+                <React.Fragment>
+                  <ErrorText>
+                    {generalError}
+                  </ErrorText>
+                </React.Fragment>
+              )}
               <ButtonGradient
                 text={type}
                 onPress={() => this._onSubmit({

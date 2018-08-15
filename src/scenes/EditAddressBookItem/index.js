@@ -21,7 +21,6 @@ export default class EditContact extends Component {
             })
             navigation.goBack()
           } catch (e) {
-            // this._generalError(e)
             console.log('There was a problem deleting this contact.')
           }
         }} />
