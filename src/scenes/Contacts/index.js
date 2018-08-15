@@ -40,23 +40,6 @@ export default class Contacts extends Component {
     }
   }
 
-  // _getVoteListFromStore = async (store = null) => {
-  //   let voteStore
-  //   if (store) voteStore = store
-  //   else voteStore = await getCandidateStore()
-  //   return voteStore
-  //     .objects('Candidate')
-  //     .sorted([['votes', true], ['rank', false]])
-  //     .slice(
-  //       this.state.offset,
-  //       clamp(
-  //         this.state.offset + LIST_STEP_SIZE,
-  //         voteStore.objects('Candidate').length
-  //       )
-  //     )
-  //     .map(item => Object.assign({}, item))
-  // }
-
   _onAddPress = () => {
     const { navigation } = this.props
 

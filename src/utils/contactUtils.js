@@ -5,6 +5,7 @@ export const getContactsFromStore = async () => {
 
   return store
     .objects('Contact')
+    .sorted('name')
     .map(item => Object.assign({}, item))
 }
 
