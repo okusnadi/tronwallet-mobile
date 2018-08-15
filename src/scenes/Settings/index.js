@@ -69,7 +69,8 @@ class Settings extends Component {
     modalVisible: false,
     partnerUri: '',
     userTokens: [],
-    userSelectedTokens: []
+    userSelectedTokens: [],
+    currentSelectedTokens: []
   }
 
   componentDidMount () {
@@ -95,7 +96,11 @@ class Settings extends Component {
       const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
       const selectedTokens = filteredTokens ? JSON.parse(filteredTokens) : []
 
-      this.setState({ userTokens: orderAssets(tokens), userSelectedTokens: selectedTokens })
+      this.setState({
+        userTokens: orderAssets(tokens),
+        userSelectedTokens: selectedTokens,
+        currentSelectedTokens: selectedTokens
+      })
     } catch (error) {
       console.log(error)
     }
@@ -156,11 +161,10 @@ class Settings extends Component {
   _openPartnerLink = (partnerUri) => this.setState({ modalVisible: true, partnerUri })
 
   _saveSelectedTokens = async () => {
-    const { userSelectedTokens } = this.state
+    const { currentSelectedTokens } = this.state
     try {
-      if (userSelectedTokens) {
-        await AsyncStorage.setItem(USER_FILTERED_TOKENS, JSON.stringify(userSelectedTokens))
-      }
+      await AsyncStorage.setItem(USER_FILTERED_TOKENS, JSON.stringify(currentSelectedTokens))
+      this.setState({ userSelectedTokens: currentSelectedTokens })
     } catch (error) {
       console.log(error)
     }
@@ -171,6 +175,12 @@ class Settings extends Component {
       {tl.t('settings.token.noResult')}
     </Utils.Text>
   )
+
+  _showTokenSelect = () => {
+    const { userSelectedTokens } = this.state
+    this.setState({ currentSelectedTokens: userSelectedTokens })
+    this.SectionedMultiSelect._toggleSelector()
+  }
 
   _renderList = () => {
     const { seed } = this.state
@@ -236,7 +246,7 @@ class Settings extends Component {
         title: tl.t('settings.token.title'),
         description: tl.t('settings.token.description'),
         icon: 'sort,-filter,-arrange,-funnel,-filter',
-        onPress: () => this.SectionedMultiSelect._toggleSelector()
+        onPress: this._showTokenSelect
       }
     ]
 
@@ -292,7 +302,7 @@ class Settings extends Component {
   }
 
   render () {
-    const { partnerUri, modalVisible, userTokens, userSelectedTokens } = this.state
+    const { partnerUri, modalVisible, userTokens, currentSelectedTokens } = this.state
     const languageOptions = LANGUAGES.map(language => language.value)
 
     return (
@@ -330,8 +340,8 @@ class Settings extends Component {
           ref={ref => { this.SectionedMultiSelect = ref }}
           items={userTokens}
           uniqueKey='id'
-          onSelectedItemsChange={(selected) => this.setState({ userSelectedTokens: selected })}
-          selectedItems={userSelectedTokens}
+          onSelectedItemsChange={(selected) => this.setState({ currentSelectedTokens: selected })}
+          selectedItems={currentSelectedTokens}
           onConfirm={this._saveSelectedTokens}
           showChips={false}
           hideSelect

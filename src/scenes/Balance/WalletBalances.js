@@ -17,11 +17,15 @@ class WalletBalances extends PureComponent {
   }
 
   async componentDidUpdate () {
-    const { userTokens: currentUserTokens } = this.state
-    const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+    try {
+      const { userTokens: currentUserTokens } = this.state
+      const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
 
-    if (currentUserTokens.length === 0 || JSON.stringify(currentUserTokens) !== userTokens) {
-      this.setState({ userTokens: JSON.parse(userTokens) })
+      if (currentUserTokens.length === 0 || JSON.stringify(currentUserTokens) !== userTokens) {
+        this.setState({ userTokens: JSON.parse(userTokens) })
+      }
+    } catch (error) {
+      console.log(error)
     }
   }
 
