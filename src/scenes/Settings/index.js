@@ -12,6 +12,7 @@ import {
   WebView
 } from 'react-native'
 
+import SectionedMultiSelect from 'react-native-sectioned-multi-select'
 import ActionSheet from 'react-native-actionsheet'
 import Toast from 'react-native-easy-toast'
 import { Answers } from 'react-native-fabric'
@@ -28,7 +29,9 @@ import { Colors, Spacing } from '../../components/DesignSystem'
 import NavigationHeader from '../../components/Navigation/Header'
 
 // Utils
-import { USER_PREFERRED_LANGUAGE } from '../../utils/constants'
+import getBalanceStore from '../../store/balance'
+import { orderAssets } from '../../utils/assetsUtils'
+import { USER_PREFERRED_LANGUAGE, USER_FILTERED_TOKENS } from '../../utils/constants'
 import tl from '../../utils/i18n'
 import fontelloConfig from '../../assets/icons/config.json'
 import { withContext } from '../../store/context'
@@ -65,12 +68,16 @@ class Settings extends Component {
     subscriptionStatus: null,
     changingSubscription: false,
     modalVisible: false,
-    partnerUri: ''
+    partnerUri: '',
+    userTokens: [],
+    userSelectedTokens: [],
+    currentSelectedTokens: []
   }
 
   componentDidMount () {
     Answers.logContentView('Tab', 'Settings')
     this._onLoadData()
+    this._getSelectedTokens()
     OneSignal.getPermissionSubscriptionState(
       status => this.setState({ subscriptionStatus: status.userSubscriptionEnabled === 'true' })
     )
@@ -80,6 +87,24 @@ class Settings extends Component {
     const data = await getUserSecrets(this.props.context.pin)
     const seed = data.mnemonic
     this.setState({ seed, loading: false })
+  }
+
+  _getSelectedTokens = async () => {
+    try {
+      const store = await getBalanceStore()
+      const tokens = store.objects('Balance').map(({ name }) => ({ id: name, name }))
+
+      const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+      const selectedTokens = filteredTokens ? JSON.parse(filteredTokens) : []
+
+      this.setState({
+        userTokens: orderAssets(tokens),
+        userSelectedTokens: selectedTokens,
+        currentSelectedTokens: selectedTokens
+      })
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   _resetWallet = async () => {
@@ -135,6 +160,28 @@ class Settings extends Component {
   }
 
   _openPartnerLink = (partnerUri) => this.setState({ modalVisible: true, partnerUri })
+
+  _saveSelectedTokens = async () => {
+    const { currentSelectedTokens } = this.state
+    try {
+      await AsyncStorage.setItem(USER_FILTERED_TOKENS, JSON.stringify(currentSelectedTokens))
+      this.setState({ userSelectedTokens: currentSelectedTokens })
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
+  _renderNoResults = () => (
+    <Utils.Text lineHeight={20} size='small' color={Colors.background}>
+      {tl.t('settings.token.noResult')}
+    </Utils.Text>
+  )
+
+  _showTokenSelect = () => {
+    const { userSelectedTokens } = this.state
+    this.setState({ currentSelectedTokens: userSelectedTokens })
+    this.SectionedMultiSelect._toggleSelector()
+  }
 
   _renderList = () => {
     const { seed } = this.state
@@ -195,6 +242,12 @@ class Settings extends Component {
         description: tl.t('settings.language.description'),
         icon: 'earth,-globe,-planet,-world,-universe',
         onPress: () => this.ActionSheet.show()
+      },
+      {
+        title: tl.t('settings.token.title'),
+        description: tl.t('settings.token.description'),
+        icon: 'sort,-filter,-arrange,-funnel,-filter',
+        onPress: this._showTokenSelect
       }
     ]
 
@@ -250,7 +303,7 @@ class Settings extends Component {
   }
 
   render () {
-    const { partnerUri, modalVisible } = this.state
+    const { partnerUri, modalVisible, userTokens, currentSelectedTokens } = this.state
     const languageOptions = LANGUAGES.map(language => language.value)
 
     return (
@@ -284,6 +337,19 @@ class Settings extends Component {
             startInLoadingState
           />
         </Modal>
+        <SectionedMultiSelect
+          ref={ref => { this.SectionedMultiSelect = ref }}
+          items={userTokens}
+          uniqueKey='id'
+          onSelectedItemsChange={(selected) => this.setState({ currentSelectedTokens: selected })}
+          selectedItems={currentSelectedTokens}
+          onConfirm={this._saveSelectedTokens}
+          showChips={false}
+          hideSelect
+          searchPlaceholderText={tl.t('settings.token.search')}
+          confirmText={tl.t('settings.token.confirm')}
+          noResultsComponent={this._renderNoResults()}
+        />
         <ScrollView>
           {this._renderList()}
         </ScrollView>

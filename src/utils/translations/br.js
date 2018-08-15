@@ -286,6 +286,13 @@ const settings = {
     success: 'Idioma alterado para {{language}}, por favor reinicie o app',
     error: 'Erro ao salvar Idioma'
   },
+  token: {
+    title: 'Filtrar Moedas',
+    description: 'Escolha quais moedas exibir',
+    search: 'Buscar moedas',
+    confirm: 'Salvar',
+    noResult: 'Nenhum resultado...'
+  },
   partners: 'PARCEIROS'
 }
 
