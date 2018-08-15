@@ -97,7 +97,6 @@ export default class ContactsForm extends Component {
 
   _changeState = async (prop, type, validation, error) => {
     const stateObj = await this._validateState(prop, type, validation, error)
-    console.log(stateObj)
     this.setState({...stateObj})
   }
 
