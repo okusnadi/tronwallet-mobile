@@ -4,7 +4,7 @@ import PropTypes from 'prop-types'
 
 import { FormGroup, CancelWrapper, ErrorText } from './elements'
 import IconButton from '../../../components/IconButton'
-import { VerticalSpacer } from '../../../components/Utils'
+import { VerticalSpacer, Container, Content } from '../../../components/Utils'
 import Input from '../../../components/Input'
 import ButtonGradient from '../../../components/ButtonGradient'
 import CancelButton from '../../../components/CancelButton'
@@ -12,11 +12,13 @@ import CancelButton from '../../../components/CancelButton'
 import { isAddressValid } from '../../../services/address'
 import { ADD } from '../../../utils/constants'
 import { isNameValid, isAddressUnique } from '../../../utils/validations'
+import getContactStore from '../../../store/contacts'
 
 export default class ContactsForm extends Component {
   static propTypes = {
     name: PropTypes.string,
-    address: PropTypes.string
+    address: PropTypes.string,
+    navigation: PropTypes.object.isRequired
   }
 
   state = {
@@ -42,6 +44,17 @@ export default class ContactsForm extends Component {
     this.setState({
       generalError
     })
+  }
+
+  _onSubmit = async (contact) => {
+    const store = await getContactStore()
+    try {
+      await store.write(() => { store.create('Contact', contact, true) })
+      this.props.navigation.goBack()
+    } catch (e) {
+      // this._generalError(e)
+      console.log(e)
+    }
   }
 
   _changeName = (name) => {
@@ -104,56 +117,60 @@ export default class ContactsForm extends Component {
 
   render () {
     const { name, address, nameError, addressError } = this.state
-    const { onSubmit, type } = this.props
+    const { type } = this.props
 
     return (
-      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <FormGroup>
-          <Input
-            innerRef={(input) => { this.name = input }}
-            label='NAME'
-            value={name}
-            onChangeText={name => this._changeName(name)}
-            onSubmitEditing={() => this._nextInput('address')}
-          />
-          {nameError && (
-            <React.Fragment>
-              <ErrorText>
-                {nameError}
-              </ErrorText>
-            </React.Fragment>
-          )}
-          <Input
-            innerRef={(input) => { this.address = input }}
-            label='ADDRESS'
-            value={address}
-            rightContent={this._rightContentTo}
-            onChangeText={address => this._changeAddress(address)}
-            onSubmitEditing={() => this._nextInput('submit')}
-            style={{fontSize: 14}}
-          />
-          {addressError && (
-            <React.Fragment>
-              <ErrorText>
-                {addressError}
-              </ErrorText>
-            </React.Fragment>
-          )}
-          <VerticalSpacer size='medium' />
-          <ButtonGradient
-            text={type}
-            onPress={() => onSubmit({
-              name: name.trim(),
-              alias: `@${name.trim().toLowerCase().replace(' ', '_')}`,
-              address
-            }, this._generalError)}
-            disabled={this._submitDisabled()}
-          />
-          <CancelWrapper>
-            <CancelButton navigation={this.props.navigation} />
-          </CancelWrapper>
-        </FormGroup>
-      </TouchableWithoutFeedback>
+      <Container>
+        <Content>
+          <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+            <FormGroup>
+              <Input
+                innerRef={(input) => { this.name = input }}
+                label='NAME'
+                value={name}
+                onChangeText={name => this._changeName(name)}
+                onSubmitEditing={() => this._nextInput('address')}
+              />
+              {nameError && (
+                <React.Fragment>
+                  <ErrorText>
+                    {nameError}
+                  </ErrorText>
+                </React.Fragment>
+              )}
+              <Input
+                innerRef={(input) => { this.address = input }}
+                label='ADDRESS'
+                value={address}
+                rightContent={this._rightContentTo}
+                onChangeText={address => this._changeAddress(address)}
+                onSubmitEditing={() => this._nextInput('submit')}
+                style={{fontSize: 14}}
+              />
+              {addressError && (
+                <React.Fragment>
+                  <ErrorText>
+                    {addressError}
+                  </ErrorText>
+                </React.Fragment>
+              )}
+              <VerticalSpacer size='medium' />
+              <ButtonGradient
+                text={type}
+                onPress={() => this._onSubmit({
+                  name: name.trim(),
+                  alias: `@${name.trim().toLowerCase().replace(' ', '_')}`,
+                  address
+                })}
+                disabled={this._submitDisabled()}
+              />
+              <CancelWrapper>
+                <CancelButton navigation={this.props.navigation} />
+              </CancelWrapper>
+            </FormGroup>
+          </TouchableWithoutFeedback>
+        </Content>
+      </Container>
     )
   }
 }

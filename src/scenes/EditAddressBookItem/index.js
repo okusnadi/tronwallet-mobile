@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
-import { Text } from 'react-native'
 
 import NavigationHeader from '../../components/Navigation/Header'
 import AddressForm from '../../components/AddressBook/AddressForm'
 import ClearButton from '../../components/ClearButton'
-import { Container, Content } from '../../components/Utils'
+
+import { EDIT } from '../../utils/constants'
 
 export default class EditContact extends Component {
   static navigationOptions = ({navigation}) => {
@@ -27,15 +27,14 @@ export default class EditContact extends Component {
     const { navigation } = this.props
 
     return (
-      <Container>
-        <Content>
-          {contact.address ? (
-            <AddressForm contact={contact} navigation={navigation} />
-          ) : (
-            <Text>There was a problem with this contact! WOOOOOO WOOO AMBULANCE!!!</Text>
-          )}
-        </Content>
-      </Container>
+      contact.address ? (
+        <AddressForm
+          name={contact.name}
+          address={contact.address}
+          navigation={navigation}
+          type={EDIT}
+        />
+      ) : null
     )
   }
 }
