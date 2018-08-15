@@ -8,10 +8,27 @@ import { Colors } from '../../components/DesignSystem'
 import Badge from '../../components/Badge'
 import * as Utils from '../../components/Utils'
 import { orderAssets } from '../../utils/assetsUtils'
+import { AsyncStorage } from '../../../node_modules/aws-amplify/lib/Common'
+import { USER_FILTERED_TOKENS } from '../../utils/constants'
 
 class WalletBalances extends PureComponent {
+  state = {
+    userTokens: []
+  }
+
+  async componentDidMount () {
+    const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+    const parsedBalances = userTokens ? JSON.parse(userTokens) : []
+
+    this.setState({ userTokens: parsedBalances })
+  }
+
   render () {
-    const balances = orderAssets(this.props.balances)
+    const { userTokens } = this.state
+    const { balances } = this.props
+
+    const filtered = balances.filter(asset => userTokens.findIndex(name => name === asset.name) !== -1)
+    const balancesToDisplay = orderAssets(filtered)
 
     return (
       <React.Fragment>
@@ -25,7 +42,7 @@ class WalletBalances extends PureComponent {
           </Utils.Text>
         </Utils.Row>
         <Utils.VerticalSpacer size='big' />
-        {balances && orderBalances(balances).map((item) => (
+        {balancesToDisplay && orderBalances(balancesToDisplay).map((item) => (
           <Utils.Content key={item.name} paddingHorizontal='none' paddingVertical='medium'>
             <Utils.Row justify='space-between'>
               <Badge bg={Colors.lightestBackground} guarantee={item.verified}>{item.name}</Badge>
