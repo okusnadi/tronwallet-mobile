@@ -10,7 +10,7 @@ import ButtonGradient from '../../../components/ButtonGradient'
 import CancelButton from '../../../components/CancelButton'
 
 import { isAddressValid } from '../../../services/address'
-import { ADD } from '../../../utils/constants'
+import { ADD, EDIT } from '../../../utils/constants'
 import { isNameValid, isAddressUnique } from '../../../utils/validations'
 import getContactStore from '../../../store/contacts'
 
@@ -24,6 +24,7 @@ export default class ContactsForm extends Component {
   state = {
     name: this.props.name || '',
     address: this.props.address || '',
+    initialAddress: this.props.address,
     nameError: null,
     addressError: null,
     generalError: null
@@ -65,32 +66,39 @@ export default class ContactsForm extends Component {
     this._changeState(address.trim(), 'address', isAddressValid, 'Something isn\'t right with the address. Please double check for typos.')
   }
 
-  _changeState = async (prop, type, validation, error) => {
-    let valid = validation(prop)
+  _validateState = async (item, type, validation, error) => {
+    const stateObj = {
+      [type]: item,
+      [`${type}Error`]: null
+    }
+
+    if (!item.length) return stateObj
 
     if (this.props.type === ADD && type === 'address') {
-      const addressIsUnique = await isAddressUnique(prop)
+      const addressIsUnique = await isAddressUnique(item)
 
       if (!addressIsUnique) {
-        valid = false
-        error = 'The key must be unique. Please choose a different address.'
+        return {
+          ...stateObj,
+          [`${type}Error`]: 'The key must be unique. Please choose a different address.'
+        }
       }
     }
 
-    const stateObj = { [type]: prop }
-
-    if (!valid) {
-      this.setState({
+    if (!validation(item)) {
+      return {
         ...stateObj,
         [`${type}Error`]: error
-      })
-      return
+      }
     }
 
-    this.setState({
-      ...stateObj,
-      [`${type}Error`]: null
-    })
+    return stateObj
+  }
+
+  _changeState = async (prop, type, validation, error) => {
+    const stateObj = await this._validateState(prop, type, validation, error)
+    console.log(stateObj)
+    this.setState({...stateObj})
   }
 
   _submitDisabled = () => {
@@ -113,7 +121,7 @@ export default class ContactsForm extends Component {
     }
   }
 
-  _rightContentTo = () => <IconButton onPress={this._onPaste} icon='md-clipboard' />
+  _rightContentTo = () => this.props.type === ADD ? <IconButton onPress={this._onPaste} icon='md-clipboard' /> : null
 
   render () {
     const { name, address, nameError, addressError } = this.state
@@ -146,6 +154,7 @@ export default class ContactsForm extends Component {
                 onChangeText={address => this._changeAddress(address)}
                 onSubmitEditing={() => this._nextInput('submit')}
                 style={{fontSize: 14}}
+                editable={type !== EDIT}
               />
               {addressError && (
                 <React.Fragment>

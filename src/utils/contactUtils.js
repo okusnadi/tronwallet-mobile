@@ -12,6 +12,3 @@ export const getAddressesFromStore = async () => {
   const contacts = await getContactsFromStore()
   return contacts.map(contact => contact.address)
 }
-
-export const ADD = 'ADD'
-export const EDIT = 'EDIT'
