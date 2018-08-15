@@ -286,6 +286,13 @@ const settings = {
     sucess: 'Taal aangepast naar {{language}}. Start de app opnieuw, alsjeblieft.',
     error: 'Fout tijdens opslaan van voorkeurs taal'
   },
+  token: {
+    title: 'Token-Filter',
+    description: 'Kies welke tokens moeten worden weergegeven',
+    search: 'Zoek tokens',
+    confirm: 'Opslaan',
+    noResult: 'Geen resultaten...'
+  },
   partners: 'PARTNERS'
 }
 

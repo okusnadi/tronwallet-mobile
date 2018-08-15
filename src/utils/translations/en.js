@@ -286,6 +286,13 @@ const settings = {
     success: 'Language changed to {{language}}, please restart the app',
     error: 'Error saving preferred language'
   },
+  token: {
+    title: 'Token Filter',
+    description: 'Choose which tokens to display',
+    search: 'Search tokens',
+    confirm: 'Save',
+    noResult: 'No results...'
+  },
   partners: 'PARTNERS'
 }
 
