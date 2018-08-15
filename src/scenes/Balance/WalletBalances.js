@@ -16,11 +16,13 @@ class WalletBalances extends PureComponent {
     userTokens: []
   }
 
-  async componentDidMount () {
+  async componentDidUpdate () {
+    const { userTokens: currentUserTokens } = this.state
     const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
-    const parsedBalances = userTokens ? JSON.parse(userTokens) : []
 
-    this.setState({ userTokens: parsedBalances })
+    if (currentUserTokens.length === 0 || JSON.stringify(currentUserTokens) !== userTokens) {
+      this.setState({ userTokens: JSON.parse(userTokens) })
+    }
   }
 
   render () {
@@ -30,28 +32,32 @@ class WalletBalances extends PureComponent {
     const filtered = balances.filter(asset => userTokens.findIndex(name => name === asset.name) !== -1)
     const balancesToDisplay = orderAssets(filtered)
 
-    return (
-      <React.Fragment>
-        <Utils.VerticalSpacer size='large' />
-        <Utils.Row justify='space-between'>
-          <Utils.Text size='xsmall' secondary>
-            {tl.t('balance.tokens')}
-          </Utils.Text>
-          <Utils.Text size='xsmall' secondary>
-            {tl.t('balance.holdings')}
-          </Utils.Text>
-        </Utils.Row>
-        <Utils.VerticalSpacer size='big' />
-        {balancesToDisplay && orderBalances(balancesToDisplay).map((item) => (
-          <Utils.Content key={item.name} paddingHorizontal='none' paddingVertical='medium'>
-            <Utils.Row justify='space-between'>
-              <Badge bg={Colors.lightestBackground} guarantee={item.verified}>{item.name}</Badge>
-              <Utils.Text>{formatNumber(item.balance)}</Utils.Text>
-            </Utils.Row>
-          </Utils.Content>
-        ))}
-      </React.Fragment>
-    )
+    if (balancesToDisplay.length) {
+      return (
+        <React.Fragment>
+          <Utils.VerticalSpacer size='large' />
+          <Utils.Row justify='space-between'>
+            <Utils.Text size='xsmall' secondary>
+              {tl.t('balance.tokens')}
+            </Utils.Text>
+            <Utils.Text size='xsmall' secondary>
+              {tl.t('balance.holdings')}
+            </Utils.Text>
+          </Utils.Row>
+          <Utils.VerticalSpacer size='big' />
+          {balancesToDisplay && orderBalances(balancesToDisplay).map((item) => (
+            <Utils.Content key={item.name} paddingHorizontal='none' paddingVertical='medium'>
+              <Utils.Row justify='space-between'>
+                <Badge bg={Colors.lightestBackground} guarantee={item.verified}>{item.name}</Badge>
+                <Utils.Text>{formatNumber(item.balance)}</Utils.Text>
+              </Utils.Row>
+            </Utils.Content>
+          ))}
+        </React.Fragment>
+      )
+    }
+
+    return null
   }
 }
 
