@@ -300,6 +300,10 @@ const settings = {
     confirm: 'Save',
     noResult: 'No results...'
   },
+  about: {
+    title: 'About',
+    description: 'About TronWallet'
+  },
   partners: 'PARTNERS'
 }
 

@@ -7,9 +7,7 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
-  AsyncStorage,
-  Modal,
-  WebView
+  AsyncStorage
 } from 'react-native'
 
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
@@ -20,11 +18,9 @@ import { createIconSetFromFontello } from 'react-native-vector-icons'
 import { StackActions, NavigationActions } from 'react-navigation'
 import OneSignal from 'react-native-onesignal'
 import Switch from 'react-native-switch-pro'
-import ConfigJson from '../../../package.json'
 
 // Design
 import * as Utils from '../../components/Utils'
-import { VersionText, SectionTitle, Getty, PayPartner } from './elements'
 import { Colors, Spacing } from '../../components/DesignSystem'
 import NavigationHeader from '../../components/Navigation/Header'
 
@@ -38,7 +34,6 @@ import { withContext } from '../../store/context'
 import { restartAllWalletData } from '../../utils/userAccountUtils'
 import { getUserSecrets } from '../../utils/secretsUtils'
 import Client from '../../services/client'
-import Loading from '../../components/LoadingScene'
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 const resetAction = StackActions.reset({
@@ -67,8 +62,6 @@ class Settings extends Component {
     loading: true,
     subscriptionStatus: null,
     changingSubscription: false,
-    modalVisible: false,
-    partnerUri: '',
     userTokens: [],
     userSelectedTokens: [],
     currentSelectedTokens: []
@@ -159,8 +152,6 @@ class Settings extends Component {
     }
   }
 
-  _openPartnerLink = (partnerUri) => this.setState({ modalVisible: true, partnerUri })
-
   _saveSelectedTokens = async () => {
     const { currentSelectedTokens } = this.state
     try {
@@ -248,6 +239,12 @@ class Settings extends Component {
         description: tl.t('settings.token.description'),
         icon: 'sort,-filter,-arrange,-funnel,-filter',
         onPress: this._showTokenSelect
+      },
+      {
+        title: tl.t('settings.about.title'),
+        description: tl.t('settings.about.description'),
+        icon: 'question-mark,-circle,-sign,-more,-info',
+        onPress: () => { this.props.navigation.navigate('About') }
       }
     ]
 
@@ -286,24 +283,12 @@ class Settings extends Component {
             </TouchableWithoutFeedback>
           )
         })}
-        <SectionTitle>{tl.t('settings.partners')}</SectionTitle>
-        <Utils.Row justify='center'>
-          <TouchableWithoutFeedback onPress={() => this._openPartnerLink('https://www.hummingpay.com/')}>
-            <PayPartner source={require('../../assets/paysponsor.png')} />
-          </TouchableWithoutFeedback>
-          <Utils.HorizontalSpacer size='large' />
-          <Utils.HorizontalSpacer size='large' />
-          <TouchableWithoutFeedback onPress={() => this._openPartnerLink('https://getty.io/')}>
-            <Getty source={require('../../assets/gettysponsor.png')} />
-          </TouchableWithoutFeedback>
-        </Utils.Row>
-        <VersionText>{`v${ConfigJson.version}`}</VersionText>
       </ScrollView>
     )
   }
 
   render () {
-    const { partnerUri, modalVisible, userTokens, currentSelectedTokens } = this.state
+    const { userTokens, currentSelectedTokens } = this.state
     const languageOptions = LANGUAGES.map(language => language.value)
 
     return (
@@ -325,18 +310,6 @@ class Settings extends Component {
           fadeOutDuration={1250}
           opacity={0.8}
         />
-        <Modal
-          animationType='slide'
-          transparent={false}
-          visible={modalVisible}
-          onRequestClose={() => this.setState({ modalVisible: false })}
-        >
-          <WebView
-            source={{ uri: partnerUri }}
-            renderLoading={() => <Loading />}
-            startInLoadingState
-          />
-        </Modal>
         <SectionedMultiSelect
           ref={ref => { this.SectionedMultiSelect = ref }}
           items={userTokens}
