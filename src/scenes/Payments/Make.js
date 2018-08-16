@@ -82,7 +82,7 @@ class MakePayment extends PureComponent {
 
     _navigateNext = () => {
       const { navigation } = this.props
-      navigation.navigate('TransactionSuccess', {stackToReset: 'BalanceScene', navigation})
+      navigation.navigate('TransactionSuccess', {stackToReset: 'BalanceScene'})
     }
 
     _checkToken = token => !!this.state.balances.find(b => b.name === token)
