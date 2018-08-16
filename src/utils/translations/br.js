@@ -220,7 +220,8 @@ const send = {
   input: {
     token: 'MOEDA',
     to: 'PARA',
-    amount: 'QUANTIA'
+    amount: 'QUANTIA',
+    description: 'DESCRIÇÃO (OPCIONAL)'
   },
   available: 'disponível',
   chooseToken: 'Por favor, escolha um moeda abaixo.',

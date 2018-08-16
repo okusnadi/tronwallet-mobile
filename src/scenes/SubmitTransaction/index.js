@@ -8,9 +8,9 @@ import OneSignal from 'react-native-onesignal'
 import * as Utils from '../../components/Utils'
 import { Colors } from '../../components/DesignSystem'
 import ButtonGradient from '../../components/ButtonGradient'
-import DetailRow from './detailRow'
 import LoadingScene from '../../components/LoadingScene'
 import NavigationHeader from '../../components/Navigation/Header'
+import { DetailRow, DataRow } from './elements'
 
 // Service
 import tl from '../../utils/i18n'
@@ -183,16 +183,24 @@ class TransactionDetail extends Component {
   _renderContracts = () => {
     const { transactionData, nowDate, tokenAmount } = this.state
     if (!transactionData) return null
-    const { contracts } = transactionData
+    const { contracts, data } = transactionData
 
     const contractsElements = buildTransactionDetails(contracts, tokenAmount)
     contractsElements.push(
       <DetailRow
-        key={'TIME'}
-        title={'TIME'}
+        key='TIME'
+        title='TIME'
         text={nowDate}
       />
     )
+    if (data) {
+      contractsElements.push(
+        <DataRow
+          key='DATA'
+          data={data}
+        />
+      )
+    }
     return <Utils.View paddingX={'medium'} paddingY={'small'}>{contractsElements}</Utils.View>
   }
 
