@@ -15,8 +15,6 @@ import { updateTransactions } from '../../utils/transactionUtils'
 import Empty from './Empty'
 import { ONE_TRX } from '../../services/client'
 
-const POOLING_TIME = 30000
-
 class TransactionsScene extends Component {
   static navigationOptions = () => ({
     header: <NavigationHeader title={tl.t('transactions.title')} />
@@ -46,12 +44,11 @@ class TransactionsScene extends Component {
     }
 
     this._onRefresh()
-    this.dataSubscription = setInterval(this._updateData, POOLING_TIME)
+    this._didFocusSubscription = this.props.navigation.addListener('didFocus', this._updateData)
   }
 
   componentWillUnmount () {
     this.didFocusSubscription.remove()
-    clearInterval(this.dataSubscription)
   }
 
   _getSortedTransactionList = store =>
