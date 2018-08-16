@@ -1,11 +1,12 @@
 import React, { Component } from 'react'
-import { FlatList, RefreshControl } from 'react-native'
+import { FlatList } from 'react-native'
 import { Answers } from 'react-native-fabric'
 
 import tl from '../../utils/i18n'
 import Transaction from './Transaction'
 import { Background } from './elements'
 import NavigationHeader from '../../components/Navigation/Header'
+import SyncButton from '../../components/SyncButton'
 
 import getAssetsStore from '../../store/assets'
 import getTransactionStore from '../../store/transactions'
@@ -16,35 +17,35 @@ import Empty from './Empty'
 import { ONE_TRX } from '../../services/client'
 
 class TransactionsScene extends Component {
-  static navigationOptions = () => ({
-    header: <NavigationHeader title={tl.t('transactions.title')} />
-  })
+  static navigationOptions = ({ navigation }) => {
+    const { params } = navigation.state
+
+    return {
+      header: (<NavigationHeader
+        title={tl.t('transactions.title')}
+        leftButton={<SyncButton
+          loading={params && params.refreshing}
+          onPress={() => params.updateData()}
+        />}
+      />)
+    }
+  }
 
   state = {
-    loading: true,
     refreshing: false,
     transactions: []
   }
 
   async componentDidMount () {
     Answers.logContentView('Tab', 'Transactions')
-    const transactionStore = await getTransactionStore()
-    const cachedTransactions = this._getSortedTransactionList(transactionStore)
-    if (!cachedTransactions.length) {
-      this.setState({
-        transactions: []
-      })
-    } else {
-      const assetStore = await getAssetsStore()
-      const updatedTransactions = this._updateParticipateTransactions(cachedTransactions, assetStore)
-      this.setState({
-        transactions: updatedTransactions,
-        loading: false
-      })
-    }
+    this.props.navigation.setParams({
+      refreshing: false,
+      updateData: this._onRefresh
+    })
 
+    await this._updateData()
     this._onRefresh()
-    this._didFocusSubscription = this.props.navigation.addListener('didFocus', this._updateData)
+    this._didFocusSubscription = this.props.navigation.addListener('didFocus', this._onRefresh)
   }
 
   componentWillUnmount () {
@@ -58,27 +59,27 @@ class TransactionsScene extends Component {
       .map(item => Object.assign({}, item))
 
   _onRefresh = async () => {
-    this.setState({ refreshing: true })
+    this._setRefreshState(true)
+    await updateTransactions(this.props.context.pin)
     await this._updateData()
-    this.setState({ refreshing: false })
+    this._setRefreshState(false)
+  }
+
+  _setRefreshState = (state) => {
+    this.setState({ refreshing: state })
+    this.props.navigation.setParams({ refreshing: state })
   }
 
   _updateData = async () => {
     try {
-      await updateTransactions(this.props.context.pin)
       const transactionStore = await getTransactionStore()
       const transactions = this._getSortedTransactionList(transactionStore)
       const assetStore = await getAssetsStore()
       const updatedTransactions = this._updateParticipateTransactions(transactions, assetStore)
-      this.setState({
-        transactions: updatedTransactions,
-        loading: false
-      })
+      this.setState({ transactions: updatedTransactions })
     } catch (err) {
       console.error(err)
-      this.setState({
-        loading: false
-      })
+      this._setRefreshState(false)
     }
   }
 
@@ -113,20 +114,14 @@ class TransactionsScene extends Component {
   }
 
   render () {
-    const { transactions, loading } = this.state
+    const { transactions, refreshing } = this.state
     const publicKey = this.props.context.publicKey
 
     return (
-      !transactions.length ? <Empty loading={loading} />
+      !transactions.length ? <Empty loading={refreshing} />
         : (
           <Background>
             <FlatList
-              refreshControl={
-                <RefreshControl
-                  refreshing={loading}
-                  onRefresh={this._onRefresh}
-                />
-              }
               data={transactions}
               keyExtractor={item => item.id}
               renderItem={({ item }) => <Transaction item={item} onPress={() => this._navigateToDetails(item)} publicKey={publicKey.value} />}
