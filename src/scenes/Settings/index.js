@@ -7,7 +7,9 @@ import {
   Alert,
   ActivityIndicator,
   ScrollView,
-  AsyncStorage
+  AsyncStorage,
+  Modal,
+  WebView
 } from 'react-native'
 
 import SectionedMultiSelect from 'react-native-sectioned-multi-select'
@@ -35,6 +37,7 @@ import { withContext } from '../../store/context'
 import { restartAllWalletData } from '../../utils/userAccountUtils'
 import { getUserSecrets } from '../../utils/secretsUtils'
 import Client from '../../services/client'
+import Loading from '../../components/LoadingScene'
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
 const resetAction = StackActions.reset({
@@ -61,6 +64,8 @@ class Settings extends Component {
   state = {
     seed: null,
     loading: true,
+    modalVisible: false,
+    uri: '',
     subscriptionStatus: null,
     changingSubscription: false,
     userTokens: [],
@@ -141,6 +146,8 @@ class Settings extends Component {
     )
   }
 
+  _openLink = (uri) => this.setState({ modalVisible: true, uri })
+
   _handleLanguageChange = async (index) => {
     if (index !== 0) {
       const language = LANGUAGES[index]
@@ -192,6 +199,11 @@ class Settings extends Component {
             description: tl.t('settings.about.description'),
             icon: 'question-mark,-circle,-sign,-more,-info',
             onPress: () => { this.props.navigation.navigate('About') }
+          },
+          {
+            title: tl.t('settings.accepts.title'),
+            icon: 'question-mark,-circle,-sign,-more,-info',
+            onPress: () => { this._openLink('https://www.tronwallet.me/who-accepts-tronwalletme') }
           }
         ]
       },
@@ -311,7 +323,7 @@ class Settings extends Component {
   }
 
   render () {
-    const { userTokens, currentSelectedTokens } = this.state
+    const { userTokens, currentSelectedTokens, uri, modalVisible } = this.state
     const languageOptions = LANGUAGES.map(language => language.value)
 
     return (
@@ -333,6 +345,18 @@ class Settings extends Component {
           fadeOutDuration={1250}
           opacity={0.8}
         />
+        <Modal
+          animationType='slide'
+          transparent={false}
+          visible={modalVisible}
+          onRequestClose={() => this.setState({ modalVisible: false })}
+        >
+          <WebView
+            source={{ uri }}
+            renderLoading={() => <Loading />}
+            startInLoadingState
+          />
+        </Modal>
         <SectionedMultiSelect
           ref={ref => { this.SectionedMultiSelect = ref }}
           items={userTokens}

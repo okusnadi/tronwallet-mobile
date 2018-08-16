@@ -304,6 +304,9 @@ const settings = {
     title: 'About',
     description: 'TronWallet is an open source fully decentralized P2P Crypto Wallet for TRON Network built with React Native. With it you can send and receive tokens, vote on a Super Representative, participate in a token sale, keep track of your balances and transactions and much more. Tap on the link below for a detailed tutorial on how to use it.'
   },
+  accepts: {
+    title: 'Who accepts TRX?'
+  },
   partners: 'PARTNERS'
 }
 
