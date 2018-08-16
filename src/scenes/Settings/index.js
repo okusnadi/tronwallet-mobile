@@ -23,6 +23,7 @@ import Switch from 'react-native-switch-pro'
 import * as Utils from '../../components/Utils'
 import { Colors, Spacing } from '../../components/DesignSystem'
 import NavigationHeader from '../../components/Navigation/Header'
+import { SectionTitle } from './elements'
 
 // Utils
 import getBalanceStore from '../../store/balance'
@@ -178,111 +179,133 @@ class Settings extends Component {
     const { seed } = this.state
     const list = [
       {
-        title: tl.t('settings.notifications.title'),
-        description: tl.t('settings.notifications.description'),
-        icon: 'user,-person,-avtar,-profile-picture,-dp',
-        right: () => {
-          if ((this.state.subscriptionStatus === null) || this.state.changingSubscription) {
-            return <ActivityIndicator size='small' color={Colors.primaryText} />
+        title: 'WALLET',
+        sectionLinks: [
+          {
+            title: tl.t('settings.token.title'),
+            description: tl.t('settings.token.description'),
+            icon: 'sort,-filter,-arrange,-funnel,-filter',
+            onPress: this._showTokenSelect
+          },
+          {
+            title: tl.t('settings.about.title'),
+            description: tl.t('settings.about.description'),
+            icon: 'question-mark,-circle,-sign,-more,-info',
+            onPress: () => { this.props.navigation.navigate('About') }
           }
-          return (
-            <Switch
-              circleStyle={{ backgroundColor: Colors.orange }}
-              backgroundActive={Colors.yellow}
-              backgroundInactive={Colors.secondaryText}
-              value={this.state.subscriptionStatus}
-              onSyncPress={this._changeSubscription}
-            />
-          )
-        }
+        ]
       },
       {
-        title: tl.t('settings.network.title'),
-        description: tl.t('settings.network.description'),
-        icon: 'share,-network,-connect,-community,-media',
-        onPress: () => this.props.navigation.navigate('NetworkConnection')
+        title: 'SECURITY',
+        sectionLinks: [
+          {
+            title: tl.t('settings.backup.title'),
+            description: tl.t('settings.backup.description'),
+            icon: 'key,-password,-lock,-privacy,-login',
+            onPress: () => this.props.navigation.navigate('Pin', {
+              shouldGoBack: true,
+              testInput: pin => pin === this.props.context.pin,
+              onSuccess: () => this.props.navigation.navigate('SeedCreate', { seed })
+            })
+          },
+          {
+            title: tl.t('settings.restore.title'),
+            description: tl.t('settings.restore.description'),
+            icon: 'folder-sync,-data,-folder,-recovery,-sync',
+            onPress: () => this.props.navigation.navigate('Pin', {
+              shouldGoBack: true,
+              testInput: pin => pin === this.props.context.pin,
+              onSuccess: () => this.props.navigation.navigate('SeedRestore')
+            })
+          },
+          {
+            title: tl.t('settings.reset.title'),
+            description: tl.t('settings.reset.description'),
+            icon: 'delete,-trash,-dust-bin,-remove,-recycle-bin',
+            onPress: this._resetWallet
+          }
+        ]
       },
       {
-        title: tl.t('settings.backup.title'),
-        description: tl.t('settings.backup.description'),
-        icon: 'key,-password,-lock,-privacy,-login',
-        onPress: () => this.props.navigation.navigate('Pin', {
-          shouldGoBack: true,
-          testInput: pin => pin === this.props.context.pin,
-          onSuccess: () => this.props.navigation.navigate('SeedCreate', { seed })
-        })
-      },
-      {
-        title: tl.t('settings.restore.title'),
-        description: tl.t('settings.restore.description'),
-        icon: 'folder-sync,-data,-folder,-recovery,-sync',
-        onPress: () => this.props.navigation.navigate('Pin', {
-          shouldGoBack: true,
-          testInput: pin => pin === this.props.context.pin,
-          onSuccess: () => this.props.navigation.navigate('SeedRestore')
-        })
-      },
-      {
-        title: tl.t('settings.reset.title'),
-        description: tl.t('settings.reset.description'),
-        icon: 'delete,-trash,-dust-bin,-remove,-recycle-bin',
-        onPress: this._resetWallet
-      },
-      {
-        title: tl.t('settings.language.title'),
-        description: tl.t('settings.language.description'),
-        icon: 'earth,-globe,-planet,-world,-universe',
-        onPress: () => this.ActionSheet.show()
-      },
-      {
-        title: tl.t('settings.token.title'),
-        description: tl.t('settings.token.description'),
-        icon: 'sort,-filter,-arrange,-funnel,-filter',
-        onPress: this._showTokenSelect
-      },
-      {
-        title: tl.t('settings.about.title'),
-        description: tl.t('settings.about.description'),
-        icon: 'question-mark,-circle,-sign,-more,-info',
-        onPress: () => { this.props.navigation.navigate('About') }
+        title: 'NOTIFICATIONS AND IDIOM',
+        sectionLinks: [
+          {
+            title: tl.t('settings.language.title'),
+            description: tl.t('settings.language.description'),
+            icon: 'earth,-globe,-planet,-world,-universe',
+            onPress: () => this.ActionSheet.show()
+          },
+          {
+            title: tl.t('settings.notifications.title'),
+            description: tl.t('settings.notifications.description'),
+            icon: 'user,-person,-avtar,-profile-picture,-dp',
+            right: () => {
+              if ((this.state.subscriptionStatus === null) || this.state.changingSubscription) {
+                return <ActivityIndicator size='small' color={Colors.primaryText} />
+              }
+              return (
+                <Switch
+                  circleStyle={{ backgroundColor: Colors.orange }}
+                  backgroundActive={Colors.yellow}
+                  backgroundInactive={Colors.secondaryText}
+                  value={this.state.subscriptionStatus}
+                  onSyncPress={this._changeSubscription}
+                />
+              )
+            }
+          },
+          {
+            title: tl.t('settings.network.title'),
+            description: tl.t('settings.network.description'),
+            icon: 'share,-network,-connect,-community,-media',
+            onPress: () => this.props.navigation.navigate('NetworkConnection')
+          }
+        ]
       }
     ]
 
     return (
       <ScrollView>
-        {list.map(item => {
-          const arrowIconName = 'arrow,-right,-right-arrow,-navigation-right,-arrows'
-          return (
-            <TouchableWithoutFeedback onPress={item.onPress} key={item.title}>
-              <Utils.Item padding={16}>
-                <Utils.Row justify='space-between' align='center'>
-                  <Utils.Row justify='space-between' align='center'>
-                    <View style={styles.rank}>
-                      <Icon
-                        name={item.icon}
-                        size={22}
-                        color={Colors.secondaryText}
-                      />
-                    </View>
-                    <Utils.View>
-                      <Utils.Text lineHeight={20} size='small'>
-                        {item.title}
-                      </Utils.Text>
-                    </Utils.View>
-                  </Utils.Row>
-                  {(!!item.onPress && !item.right) && (
-                    <Icon
-                      name={arrowIconName}
-                      size={15}
-                      color={Colors.secondaryText}
-                    />
-                  )}
-                  {item.right && item.right()}
-                </Utils.Row>
-              </Utils.Item>
-            </TouchableWithoutFeedback>
-          )
-        })}
+        {list.map(item => (
+          <View key={item.title}>
+            <SectionTitle>
+              {item.title}
+            </SectionTitle>
+            {item.sectionLinks.map(item => {
+              const arrowIconName = 'arrow,-right,-right-arrow,-navigation-right,-arrows'
+              return (
+                <TouchableWithoutFeedback onPress={item.onPress} key={item.title}>
+                  <Utils.Item padding={16}>
+                    <Utils.Row justify='space-between' align='center'>
+                      <Utils.Row justify='space-between' align='center'>
+                        <View style={styles.rank}>
+                          <Icon
+                            name={item.icon}
+                            size={22}
+                            color={Colors.secondaryText}
+                          />
+                        </View>
+                        <Utils.View>
+                          <Utils.Text lineHeight={20} size='small'>
+                            {item.title}
+                          </Utils.Text>
+                        </Utils.View>
+                      </Utils.Row>
+                      {(!!item.onPress && !item.right) && (
+                        <Icon
+                          name={arrowIconName}
+                          size={15}
+                          color={Colors.secondaryText}
+                        />
+                      )}
+                      {item.right && item.right()}
+                    </Utils.Row>
+                  </Utils.Item>
+                </TouchableWithoutFeedback>
+              )
+            })}
+          </View>
+        ))}
       </ScrollView>
     )
   }
