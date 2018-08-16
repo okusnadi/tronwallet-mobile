@@ -16,7 +16,9 @@ import {
   VersionText,
   SectionTitle,
   Getty,
-  PayPartner
+  PayPartner,
+  TutorialWrapper,
+  TutorialText
 } from './elements'
 
 // Utils
@@ -33,7 +35,7 @@ class About extends PureComponent {
     partnerUri: ''
   }
 
-  _openPartnerLink = (partnerUri) => this.setState({ modalVisible: true, partnerUri })
+  _openLink = (partnerUri) => this.setState({ modalVisible: true, partnerUri })
 
   render () {
     const { modalVisible, partnerUri } = this.state
@@ -42,8 +44,13 @@ class About extends PureComponent {
       <Container>
         <Content justify='space-between' flex={1}>
           <View>
-            <Description>Some text describing TronWallet. This will be yatta yatta more text word things.</Description>
+            <Description>{tl.t('settings.about.description')}</Description>
             <VerticalSpacer size='large' />
+            <TutorialWrapper>
+              <TouchableWithoutFeedback onPress={() => this._openLink('https://blog.getty.io/how-to-tronwallet-tutorial-2228a6218646')}>
+                <TutorialText>TUTORIAL</TutorialText>
+              </TouchableWithoutFeedback>
+            </TutorialWrapper>
             <Modal
               animationType='slide'
               transparent={false}
@@ -60,12 +67,12 @@ class About extends PureComponent {
           <View>
             <SectionTitle>{tl.t('settings.partners')}</SectionTitle>
             <Row justify='center'>
-              <TouchableWithoutFeedback onPress={() => this._openPartnerLink('https://www.hummingpay.com/')}>
+              <TouchableWithoutFeedback onPress={() => this._openLink('https://www.hummingpay.com/')}>
                 <PayPartner source={require('../../assets/paysponsor.png')} />
               </TouchableWithoutFeedback>
               <HorizontalSpacer size='large' />
               <HorizontalSpacer size='large' />
-              <TouchableWithoutFeedback onPress={() => this._openPartnerLink('https://getty.io/')}>
+              <TouchableWithoutFeedback onPress={() => this._openLink('https://getty.io/')}>
                 <Getty source={require('../../assets/gettysponsor.png')} />
               </TouchableWithoutFeedback>
             </Row>

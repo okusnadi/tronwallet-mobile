@@ -7,8 +7,10 @@ const BaseText = css`
   align-self: center;
 `
 export const Description = styled.Text`
-  font-family: Rubik-Regular;
+  font-family: Rubik-Light;
   font-size: 16px;
+  line-height: 20px;
+
   color: white;
 `
 export const VersionText = styled.Text`
@@ -41,4 +43,15 @@ export const DescriptionWrapper = styled.View`
 `
 export const Partners = styled.View`
   ${PaddingVertical}
+`
+export const TutorialWrapper = styled.View`
+  padding: 20px;
+  background-color: ${Colors.secondaryText};
+  border-radius: 4px;
+`
+export const TutorialText = styled.Text`
+  font-family: Rubik-Bold;
+  font-size: 14px;
+  color: white;
+  text-align: center;
 `
