@@ -21,7 +21,7 @@ class WalletBalances extends PureComponent {
       const { userTokens: currentUserTokens } = this.state
       const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
 
-      if (currentUserTokens.length === 0 || JSON.stringify(currentUserTokens) !== userTokens) {
+      if (userTokens && JSON.stringify(currentUserTokens) !== userTokens) {
         this.setState({ userTokens: JSON.parse(userTokens) })
       }
     } catch (error) {
@@ -33,7 +33,7 @@ class WalletBalances extends PureComponent {
     const { userTokens } = this.state
     const { balances } = this.props
 
-    const filtered = balances.filter(asset => userTokens.findIndex(name => name === asset.name) !== -1)
+    const filtered = userTokens.length ? balances.filter(asset => userTokens.findIndex(name => name === asset.name) !== -1) : balances
     const balancesToDisplay = orderAssets(filtered)
 
     if (balancesToDisplay.length) {
