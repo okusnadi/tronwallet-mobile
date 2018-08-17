@@ -31,7 +31,7 @@ import NavigationHeader from '../../components/Navigation/Header'
 // Utils
 import getBalanceStore from '../../store/balance'
 import { orderAssets } from '../../utils/assetsUtils'
-import { USER_PREFERRED_LANGUAGE, USER_FILTERED_TOKENS } from '../../utils/constants'
+import { USER_PREFERRED_LANGUAGE, USER_FILTERED_TOKENS, FIXED_TOKENS } from '../../utils/constants'
 import tl from '../../utils/i18n'
 import fontelloConfig from '../../assets/icons/config.json'
 import { withContext } from '../../store/context'
@@ -41,11 +41,13 @@ import Client from '../../services/client'
 import Loading from '../../components/LoadingScene'
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
+
 const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: 'Loading' })],
   key: null
 })
+
 const LANGUAGES = [
   { value: tl.t('cancel') },
   { key: 'en-US', value: 'English' },
@@ -92,7 +94,9 @@ class Settings extends Component {
   _getSelectedTokens = async () => {
     try {
       const store = await getBalanceStore()
-      const tokens = store.objects('Balance').map(({ name }) => ({ id: name, name }))
+      const tokens = store.objects('Balance')
+        .map(({ name }) => ({ id: name, name }))
+        .filter(({ name }) => FIXED_TOKENS.findIndex(token => token === name) === -1)
 
       const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
       const selectedTokens = filteredTokens ? JSON.parse(filteredTokens) : []
