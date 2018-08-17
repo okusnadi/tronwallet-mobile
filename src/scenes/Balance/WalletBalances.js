@@ -13,16 +13,23 @@ import { USER_FILTERED_TOKENS } from '../../utils/constants'
 
 class WalletBalances extends PureComponent {
   state = {
-    userTokens: []
+    currentUserTokens: '',
+    balancesToDisplay: []
   }
 
   async componentDidUpdate () {
     try {
-      const { userTokens: currentUserTokens } = this.state
-      const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+      const { currentUserTokens } = this.state
+      const { balances } = this.props
 
-      if (userTokens && JSON.stringify(currentUserTokens) !== userTokens) {
-        this.setState({ userTokens: JSON.parse(userTokens) })
+      const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+
+      if (currentUserTokens !== filteredTokens) {
+        const parsedTokens = JSON.parse(filteredTokens)
+        const filteredBalances = balances.filter(asset => parsedTokens.findIndex(name => name === asset.name) !== -1)
+        const orderedBalances = orderAssets(filteredBalances)
+
+        this.setState({ balancesToDisplay: orderedBalances, currentUserTokens: filteredTokens })
       }
     } catch (error) {
       console.log(error)
@@ -30,11 +37,7 @@ class WalletBalances extends PureComponent {
   }
 
   render () {
-    const { userTokens } = this.state
-    const { balances } = this.props
-
-    const filtered = userTokens.length ? balances.filter(asset => userTokens.findIndex(name => name === asset.name) !== -1) : balances
-    const balancesToDisplay = orderAssets(filtered)
+    const { balancesToDisplay } = this.state
 
     if (balancesToDisplay.length) {
       return (
