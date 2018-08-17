@@ -188,7 +188,7 @@ class Settings extends Component {
   }
 
   _renderList = () => {
-    const { seed } = this.state
+    const { seed, userTokens } = this.state
     const list = [
       {
         title: tl.t('settings.notifications.title'),
@@ -251,7 +251,8 @@ class Settings extends Component {
         title: tl.t('settings.token.title'),
         description: tl.t('settings.token.description'),
         icon: 'sort,-filter,-arrange,-funnel,-filter',
-        onPress: this._showTokenSelect
+        onPress: this._showTokenSelect,
+        hide: userTokens.length === 0
       }
     ]
 
@@ -259,36 +260,39 @@ class Settings extends Component {
       <ScrollView>
         {list.map(item => {
           const arrowIconName = 'arrow,-right,-right-arrow,-navigation-right,-arrows'
-          return (
-            <TouchableWithoutFeedback onPress={item.onPress} key={item.title}>
-              <Utils.Item padding={16}>
-                <Utils.Row justify='space-between' align='center'>
+          if (!item.hide) {
+            return (
+              <TouchableWithoutFeedback onPress={item.onPress} key={item.title}>
+                <Utils.Item padding={16}>
                   <Utils.Row justify='space-between' align='center'>
-                    <View style={styles.rank}>
+                    <Utils.Row justify='space-between' align='center'>
+                      <View style={styles.rank}>
+                        <Icon
+                          name={item.icon}
+                          size={22}
+                          color={Colors.secondaryText}
+                        />
+                      </View>
+                      <Utils.View>
+                        <Utils.Text lineHeight={20} size='small'>
+                          {item.title}
+                        </Utils.Text>
+                      </Utils.View>
+                    </Utils.Row>
+                    {(!!item.onPress && !item.right) && (
                       <Icon
-                        name={item.icon}
-                        size={22}
+                        name={arrowIconName}
+                        size={15}
                         color={Colors.secondaryText}
                       />
-                    </View>
-                    <Utils.View>
-                      <Utils.Text lineHeight={20} size='small'>
-                        {item.title}
-                      </Utils.Text>
-                    </Utils.View>
+                    )}
+                    {item.right && item.right()}
                   </Utils.Row>
-                  {(!!item.onPress && !item.right) && (
-                    <Icon
-                      name={arrowIconName}
-                      size={15}
-                      color={Colors.secondaryText}
-                    />
-                  )}
-                  {item.right && item.right()}
-                </Utils.Row>
-              </Utils.Item>
-            </TouchableWithoutFeedback>
-          )
+                </Utils.Item>
+              </TouchableWithoutFeedback>
+            )
+          }
+          return null
         })}
         <SectionTitle>{tl.t('settings.partners')}</SectionTitle>
         <Utils.Row justify='center'>
