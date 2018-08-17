@@ -378,6 +378,27 @@ const votes = {
   error: `Oops, algo não carregou corretamente. Tente recarregar.`
 }
 
+const makePayment = {
+  pay: 'Pagamento',
+  confirm: 'CONFIRMAR PAGAMENTO',
+  error: {
+    receiver: 'Destinatário é igual ao solicitante',
+    token: 'Esta conta não possui moeda para esta transação',
+    amount: 'Esta conta não tem fundos suficientes',
+    description: 'Não há descrição disponível'
+  }
+}
+const buildPayment = {
+  generate: 'GERAR PEDIDO',
+  selectCurrency: 'Selecione a moeda de referência',
+  error: {
+    currency: 'Não conseguimos carregar outros preços de moedas. Utilize o TRX como referência'
+  }
+}
+const requestPayment = {
+  title: 'REQUERIR PAGAMENTO'
+}
+
 export default {
   balance,
   components,
@@ -397,5 +418,8 @@ export default {
   transactionDetails,
   transactionSuccess,
   votes,
+  makePayment,
+  buildPayment,
+  requestPayment,
   ...general
 }
