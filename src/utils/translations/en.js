@@ -395,6 +395,7 @@ const scanPayment = {
     code: 'Payment code invalid. Please, scan a valid one'
   }
 }
+
 const makePayment = {
   pay: 'Pay',
   confirm: 'CONFIRM PAYMENT',
@@ -417,6 +418,7 @@ const buildPayment = {
 const requestPayment = {
   title: 'REQUEST PAYMENT'
 }
+
 export default {
   balance,
   components,

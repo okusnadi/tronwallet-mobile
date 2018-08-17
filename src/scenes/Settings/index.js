@@ -52,7 +52,8 @@ const LANGUAGES = [
   { key: 'pt-BR', value: 'Português' },
   { key: 'fr-FR', value: 'Français' },
   { key: 'nl-NL', value: 'Nederlands' },
-  { key: 'es-ES', value: 'Español' }
+  { key: 'es-ES', value: 'Español' },
+  { key: 'ch-CH', value: '中文' }
 ]
 
 class Settings extends Component {
