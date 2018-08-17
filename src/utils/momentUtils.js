@@ -62,6 +62,22 @@ const relativeTime = {
     MM: '%d meses',
     y: 'un año',
     yy: '%d años'
+  },
+  ch: {
+    future: '以后%s',
+    past: '以前%s',
+    s: '几秒',
+    ss: '%d秒',
+    m: '1分钟',
+    mm: '%d分钟',
+    h: '1小时',
+    hh: '%d时',
+    d: '1天',
+    dd: '%d天',
+    M: '1个月',
+    MM: '%d月',
+    y: '1年',
+    yy: '%d年'
   }
 }
 
