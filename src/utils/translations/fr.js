@@ -220,7 +220,9 @@ const send = {
   input: {
     token: 'JETON',
     to: 'À',
-    amount: 'MONTANT'
+    amount: 'MONTANT',
+    description: 'DESCRIPTION (FACULTATIF)',
+    placeholder: 'Décrivez le transfert'
   },
   available: 'disponible',
   chooseToken: 'Veuillez choisir l\'un des jetons ci-dessous',
@@ -229,6 +231,11 @@ const send = {
 
 const settings = {
   title: 'REGLAGES',
+  sectionTitles: {
+    wallet: 'PORTEFEUILLE',
+    security: 'SÉCURITÉ',
+    notification: 'NOTIFICATIONS ET LANGUE'
+  },
   notifications: {
     title: 'Abonnement aux notifications',
     description: 'Activer ou désactiver les notifications push'
@@ -292,6 +299,14 @@ const settings = {
     search: 'Jetons de recherche',
     confirm: 'Sauvegarder',
     noResult: 'Aucun résultat...'
+  },
+  about: {
+    title: 'Sur',
+    description: 'TronWallet est un portefeuille de chiffrement P2P entièrement décentralisé open source pour le réseau TRON construit avec React Native. Avec cela, vous pouvez envoyer et recevoir des jetons, voter pour un Super représentant, participer à une vente par jeton, suivre vos soldes et vos transactions et bien plus encore. Appuyez sur le lien ci-dessous pour un tutoriel détaillé sur son utilisation.',
+    tutorial: 'TUTORIAL'
+  },
+  accepts: {
+    title: 'Qui accepte TRX?'
   },
   partners: 'PARTENAIRES'
 }

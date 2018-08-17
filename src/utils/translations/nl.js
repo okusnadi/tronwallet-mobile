@@ -220,7 +220,9 @@ const send = {
   input: {
     token: 'TOKEN',
     to: 'NAAR',
-    amount: 'HOEVEELHEID'
+    amount: 'HOEVEELHEID',
+    description: 'BESCHRIJVING (OPTIONEEL)',
+    placeholder: 'Beschrijf de overdracht'
   },
   available: 'beschikbaar',
   chooseToken: 'Selecteer een token, alsjeblieft.',
@@ -229,6 +231,11 @@ const send = {
 
 const settings = {
   title: 'INSTELLINGEN',
+  sectionTitles: {
+    wallet: 'PORTEMONNEE',
+    security: 'VEILIGHEID',
+    notification: 'MELDINGEN EN TALEN'
+  },
   notifications: {
     title: 'Notificatie instellingen',
     description: 'Zet push notificaties aan of uit'
@@ -292,6 +299,14 @@ const settings = {
     search: 'Zoek tokens',
     confirm: 'Opslaan',
     noResult: 'Geen resultaten...'
+  },
+  about: {
+    title: 'Over',
+    description: 'TronWallet is een open source volledig gedecentraliseerde P2P Crypto Wallet voor TRON Network gebouwd met React Native. Hiermee kun je tokens verzenden en ontvangen, stemmen op een supervertegenwoordiger, deelnemen aan een token-uitverkoop, je saldo\'s en transacties bijhouden en nog veel meer. Tik op de onderstaande link voor een gedetailleerde zelfstudie over het gebruik ervan.',
+    tutorial: 'TUTORIAL'
+  },
+  accepts: {
+    title: 'Wie accepteert TRX?'
   },
   partners: 'PARTNERS'
 }
