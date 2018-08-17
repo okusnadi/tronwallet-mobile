@@ -186,7 +186,7 @@ class Settings extends Component {
     const { seed } = this.state
     const list = [
       {
-        title: 'WALLET',
+        title: tl.t('settings.sectionTitles.wallet'),
         sectionLinks: [
           {
             title: tl.t('settings.token.title'),
@@ -208,7 +208,7 @@ class Settings extends Component {
         ]
       },
       {
-        title: 'SECURITY',
+        title: tl.t('settings.sectionTitles.security'),
         sectionLinks: [
           {
             title: tl.t('settings.backup.title'),
@@ -239,7 +239,7 @@ class Settings extends Component {
         ]
       },
       {
-        title: 'NOTIFICATIONS AND IDIOM',
+        title: tl.t('settings.sectionTitles.notification'),
         sectionLinks: [
           {
             title: tl.t('settings.language.title'),

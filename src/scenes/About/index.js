@@ -27,7 +27,7 @@ import ConfigJson from '../../../package.json'
 
 class About extends PureComponent {
   static navigationOptions = ({navigation}) => ({
-    header: <NavigationHeader onBack={() => { navigation.goBack() }} title='ABOUT' />
+    header: <NavigationHeader onBack={() => { navigation.goBack() }} title={tl.t('settings.about.title').toUpperCase()} />
   })
 
   state = {
@@ -48,7 +48,7 @@ class About extends PureComponent {
             <VerticalSpacer size='large' />
             <TutorialWrapper>
               <TouchableWithoutFeedback onPress={() => this._openLink('https://blog.getty.io/how-to-tronwallet-tutorial-2228a6218646')}>
-                <TutorialText>TUTORIAL</TutorialText>
+                <TutorialText>{tl.t('settings.about.tutorial')}</TutorialText>
               </TouchableWithoutFeedback>
             </TutorialWrapper>
             <Modal
