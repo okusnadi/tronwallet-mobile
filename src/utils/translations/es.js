@@ -222,7 +222,7 @@ const send = {
     to: 'PARA',
     amount: 'CANTIDAD',
     description: 'DESCRIPCIÓN (OPCIONAL)',
-    placeholder: 'Describe the transfer'
+    placeholder: 'Describe la transferencia'
 
   },
   available: 'disponible',
