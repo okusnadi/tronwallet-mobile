@@ -220,7 +220,9 @@ const send = {
   input: {
     token: 'JETON',
     to: 'À',
-    amount: 'MONTANT'
+    amount: 'MONTANT',
+    description: 'DESCRIPTION (FACULTATIF)',
+    placeholder: 'Décrivez le transfert'
   },
   available: 'disponible',
   chooseToken: 'Veuillez choisir l\'un des jetons ci-dessous',

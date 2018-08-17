@@ -221,7 +221,8 @@ const send = {
     token: 'MOEDA',
     to: 'PARA',
     amount: 'QUANTIA',
-    description: 'DESCRIÇÃO (OPCIONAL)'
+    description: 'DESCRIÇÃO (OPCIONAL)',
+    placeholder: 'Describe the transfer'
   },
   available: 'disponível',
   chooseToken: 'Por favor, escolha um moeda abaixo.',

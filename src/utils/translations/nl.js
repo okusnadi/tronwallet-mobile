@@ -220,7 +220,9 @@ const send = {
   input: {
     token: 'TOKEN',
     to: 'NAAR',
-    amount: 'HOEVEELHEID'
+    amount: 'HOEVEELHEID',
+    description: 'BESCHRIJVING (OPTIONEEL)',
+    placeholder: 'Beschrijf de overdracht'
   },
   available: 'beschikbaar',
   chooseToken: 'Selecteer een token, alsjeblieft.',
