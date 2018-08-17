@@ -227,7 +227,8 @@ const send = {
     token: 'TOKEN',
     to: 'TO',
     amount: 'AMOUNT',
-    description: 'DESCRIPTION (OPTIONAL)'
+    description: 'DESCRIPTION (OPTIONAL)',
+    placeholder: 'Describe the transfer'
   },
   available: 'available',
   chooseToken: 'Please, choose a token below.',
@@ -399,7 +400,7 @@ const votes = {
 }
 
 const scanPayment = {
-  scan: 'Scan',
+  scan: 'SCAN',
   error: {
     receiver: 'Receiver address invalid',
     token: 'Token not valid',
@@ -410,7 +411,7 @@ const scanPayment = {
 }
 
 const makePayment = {
-  pay: 'Pay',
+  pay: 'PAY',
   confirm: 'CONFIRM PAYMENT',
   error: {
     receiver: 'Receiver is equal to requester',

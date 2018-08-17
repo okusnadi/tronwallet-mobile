@@ -227,7 +227,8 @@ const send = {
     token: '通证',
     to: '至',
     amount: '数额',
-    description: '说明（可选）'
+    description: '说明（可选）',
+    placeholder: '描述转移'
   },
   available: '可用',
   chooseToken: '请在下面选择一个通证。',

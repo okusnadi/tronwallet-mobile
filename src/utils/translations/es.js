@@ -220,7 +220,10 @@ const send = {
   input: {
     token: 'TOKEN',
     to: 'PARA',
-    amount: 'CANTIDAD'
+    amount: 'CANTIDAD',
+    description: 'DESCRIPCIÓN (OPCIONAL)',
+    placeholder: 'Describe la transferencia'
+
   },
   available: 'disponible',
   chooseToken: 'Por facvor, elige un token abajo.',

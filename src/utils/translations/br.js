@@ -221,7 +221,8 @@ const send = {
     token: 'MOEDA',
     to: 'PARA',
     amount: 'QUANTIA',
-    description: 'DESCRIÇÃO (OPCIONAL)'
+    description: 'DESCRIÇÃO (OPCIONAL)',
+    placeholder: 'Descreva esta transferência'
   },
   available: 'disponível',
   chooseToken: 'Por favor, escolha um moeda abaixo.',
@@ -392,7 +393,7 @@ const votes = {
 }
 
 const makePayment = {
-  pay: 'Pagamento',
+  pay: 'PAGAMENTO',
   confirm: 'CONFIRMAR PAGAMENTO',
   error: {
     receiver: 'Destinatário é igual ao solicitante',
