@@ -7,7 +7,8 @@ import {
   Modal,
   TouchableOpacity,
   Keyboard,
-  ScrollView
+  ScrollView,
+  AsyncStorage
 } from 'react-native'
 
 import { Answers } from 'react-native-fabric'
@@ -30,6 +31,7 @@ import { signTransaction } from '../../utils/transactionUtils'
 import { formatNumber } from '../../utils/numberUtils'
 import getBalanceStore from '../../store/balance'
 import { withContext } from '../../store/context'
+import { USER_FILTERED_TOKENS } from '../../utils/constants'
 
 class SendScene extends Component {
   static navigationOptions = ({ navigation }) => {
@@ -95,7 +97,9 @@ class SendScene extends Component {
 
       if (balances.length) {
         balance = balances.find(b => b.name === 'TRX').balance
-        orderedBalances = this._orderBalances(balances)
+        const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+        const filteredBalances = balances.filter(asset => JSON.parse(userTokens).findIndex(name => name === asset.name) !== -1)
+        orderedBalances = this._orderBalances(filteredBalances)
       }
 
       this.setState({
