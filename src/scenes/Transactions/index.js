@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { FlatList } from 'react-native'
+import { FlatList, AsyncStorage } from 'react-native'
 import { Answers } from 'react-native-fabric'
 
 import tl from '../../utils/i18n'
@@ -7,6 +7,7 @@ import Transaction from './Transaction'
 import { Background } from './elements'
 import NavigationHeader from '../../components/Navigation/Header'
 import SyncButton from '../../components/SyncButton'
+import { USER_FILTERED_TOKENS } from '../../utils/constants'
 
 import getAssetsStore from '../../store/assets'
 import getTransactionStore from '../../store/transactions'
@@ -32,14 +33,14 @@ class TransactionsScene extends Component {
   }
 
   state = {
-    refreshing: false,
+    refreshing: true,
     transactions: []
   }
 
   async componentDidMount () {
     Answers.logContentView('Tab', 'Transactions')
     this.props.navigation.setParams({
-      refreshing: false,
+      refreshing: true,
       updateData: this._onRefresh
     })
 
@@ -74,8 +75,16 @@ class TransactionsScene extends Component {
     try {
       const transactionStore = await getTransactionStore()
       const transactions = this._getSortedTransactionList(transactionStore)
+
+      const userTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
+      const filteredTransactions = transactions.filter(({ type, contractData }) =>
+        type === 'Vote' ||
+        JSON.parse(userTokens).findIndex(name => name === contractData.tokenName) !== -1
+      )
+
       const assetStore = await getAssetsStore()
-      const updatedTransactions = this._updateParticipateTransactions(transactions, assetStore)
+      const updatedTransactions = this._updateParticipateTransactions(filteredTransactions, assetStore)
+
       this.setState({ transactions: updatedTransactions })
     } catch (err) {
       console.error(err)
