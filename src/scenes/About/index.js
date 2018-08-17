@@ -57,6 +57,7 @@ class About extends PureComponent {
               visible={modalVisible}
               onRequestClose={() => this.setState({ modalVisible: false })}
             >
+              <NavigationHeader title='' onBack={() => { this.props.navigation.goBack() }} />
               <WebView
                 source={{ uri: partnerUri }}
                 renderLoading={() => <Loading />}

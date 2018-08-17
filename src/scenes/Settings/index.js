@@ -358,6 +358,7 @@ class Settings extends Component {
           visible={modalVisible}
           onRequestClose={() => this.setState({ modalVisible: false })}
         >
+          <NavigationHeader title='' onBack={() => { this.setState({ modalVisible: false }) }} />
           <WebView
             source={{ uri }}
             renderLoading={() => <Loading />}
