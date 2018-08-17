@@ -379,7 +379,7 @@ const votes = {
 }
 
 const makePayment = {
-  pay: 'Pagamento',
+  pay: 'PAGAMENTO',
   confirm: 'CONFIRMAR PAGAMENTO',
   error: {
     receiver: 'Destinatário é igual ao solicitante',

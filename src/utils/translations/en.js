@@ -386,7 +386,7 @@ const votes = {
 }
 
 const scanPayment = {
-  scan: 'Scan',
+  scan: 'SCAN',
   error: {
     receiver: 'Receiver address invalid',
     token: 'Token not valid',
@@ -397,7 +397,7 @@ const scanPayment = {
 }
 
 const makePayment = {
-  pay: 'Pay',
+  pay: 'PAY',
   confirm: 'CONFIRM PAYMENT',
   error: {
     receiver: 'Receiver is equal to requester',
