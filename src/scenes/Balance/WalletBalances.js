@@ -13,7 +13,7 @@ import { USER_FILTERED_TOKENS } from '../../utils/constants'
 
 class WalletBalances extends PureComponent {
   state = {
-    currentUserTokens: '',
+    currentUserTokens: null,
     balancesToDisplay: []
   }
 
@@ -26,7 +26,7 @@ class WalletBalances extends PureComponent {
 
       if (currentUserTokens !== filteredTokens) {
         const parsedTokens = JSON.parse(filteredTokens)
-        const filteredBalances = balances.filter(asset => parsedTokens.findIndex(name => name === asset.name) !== -1)
+        const filteredBalances = balances.filter(asset => parsedTokens.findIndex(name => name === asset.name) === -1)
         const orderedBalances = orderAssets(filteredBalances)
 
         this.setState({ balancesToDisplay: orderedBalances, currentUserTokens: filteredTokens })

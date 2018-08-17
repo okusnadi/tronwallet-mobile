@@ -95,8 +95,8 @@ class Settings extends Component {
     try {
       const store = await getBalanceStore()
       const tokens = store.objects('Balance')
-        .map(({ name }) => ({ id: name, name }))
         .filter(({ name }) => FIXED_TOKENS.findIndex(token => token === name) === -1)
+        .map(({ name }) => ({ id: name, name }))
 
       const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
       const selectedTokens = filteredTokens ? JSON.parse(filteredTokens) : []
