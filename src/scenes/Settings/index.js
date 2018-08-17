@@ -197,6 +197,7 @@ class Settings extends Component {
             title: tl.t('settings.token.title'),
             description: tl.t('settings.token.description'),
             icon: 'sort,-filter,-arrange,-funnel,-filter',
+            hide: userTokens.length === 0,
             onPress: this._showTokenSelect
           },
           {
@@ -275,7 +276,6 @@ class Settings extends Component {
             title: tl.t('settings.network.title'),
             description: tl.t('settings.network.description'),
             icon: 'share,-network,-connect,-community,-media',
-            hide: userTokens.length === 0,
             onPress: () => this.props.navigation.navigate('NetworkConnection')
           }
         ]
