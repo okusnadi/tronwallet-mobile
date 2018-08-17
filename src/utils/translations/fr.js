@@ -286,6 +286,13 @@ const settings = {
     sucess: 'Langue changé en {{language}}. Veuillez redémarrer l\'application',
     error: 'Erreur lors de la sauvegarde la langue préférée.'
   },
+  token: {
+    title: 'Filtre de Jetons',
+    description: 'Choisissez les jetons à afficher',
+    search: 'Jetons de recherche',
+    confirm: 'Sauvegarder',
+    noResult: 'Aucun résultat...'
+  },
   partners: 'PARTENAIRES'
 }
 

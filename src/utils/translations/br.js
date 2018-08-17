@@ -220,7 +220,8 @@ const send = {
   input: {
     token: 'MOEDA',
     to: 'PARA',
-    amount: 'QUANTIA'
+    amount: 'QUANTIA',
+    description: 'DESCRIÇÃO (OPCIONAL)'
   },
   available: 'disponível',
   chooseToken: 'Por favor, escolha um moeda abaixo.',
@@ -285,6 +286,13 @@ const settings = {
     choose: 'Por favor, escolha um Idioma abaixo:',
     success: 'Idioma alterado para {{language}}, por favor reinicie o app',
     error: 'Erro ao salvar Idioma'
+  },
+  token: {
+    title: 'Filtrar Moedas',
+    description: 'Escolha quais moedas exibir',
+    search: 'Buscar moedas',
+    confirm: 'Salvar',
+    noResult: 'Nenhum resultado...'
   },
   partners: 'PARCEIROS'
 }
