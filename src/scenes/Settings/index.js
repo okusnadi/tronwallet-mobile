@@ -373,6 +373,7 @@ class Settings extends Component {
           selectedItems={currentSelectedTokens}
           onConfirm={this._saveSelectedTokens}
           showChips={false}
+          showCancelButton
           hideSelect
           searchPlaceholderText={tl.t('settings.token.search')}
           confirmText={tl.t('settings.token.confirm')}
