@@ -229,6 +229,11 @@ const send = {
 
 const settings = {
   title: 'AJSUTES',
+  sectionTitles: {
+    wallet: 'BILLETERA',
+    security: 'SEGURIDAD',
+    notification: 'NOTIFICACIONES E LENGUAJE'
+  },
   notifications: {
     title: 'Suscripción a Notificaciones',
     description: 'Activar o desactivar las notificaciones push'
@@ -285,6 +290,14 @@ const settings = {
     choose: 'Por favor, elige el idioma:',
     sucess: 'Idioma cambiado a {{language}}, por favor reinicia la app',
     error: 'Error actualizando idioma'
+  },
+  about: {
+    title: 'Acerca De',
+    description: 'TronWallet es una Crypto Wallet P2P completamente descentralizada y de código abierto para la red TRON construida con React Native. Con él, puede enviar y recibir fichas, votar a un Súper Representante, participar en una venta de fichas, realizar un seguimiento de sus saldos y transacciones, y mucho más. Toque el enlace a continuación para obtener un tutorial detallado sobre cómo usarlo.',
+    tutorial: 'TUTORIAL'
+  },
+  accepts: {
+    title: '¿Quien acepta TRX?'
   },
   partners: 'ASOCIADOS'
 }
