@@ -391,6 +391,39 @@ const votes = {
   error: `Erreur lors du chargement. Veuillez réessayer ultérieurement.`
 }
 
+const scanPayment = {
+  scan: 'Balayage',
+  error: {
+    receiver: 'Adresse du destinataire non valide',
+    token: 'Jeton non valide',
+    amount: 'Montant non valide',
+    description: 'Description trop longue',
+    code: 'Code de paiement invalide S\'il vous plaît, numérisez un valide'
+  }
+}
+const makePayment = {
+  pay: 'Payer',
+  confirm: 'CONFIRMER LE PAIEMENT',
+  error: {
+    receiver: 'Récepteur est égal à demandeur',
+    token: 'Ce compte n\'a pas le jeton pour cette transaction',
+    amount: 'Ce compte n\'a pas assez d\'équilibre.',
+    description: 'Pas de description disponible'
+  }
+}
+
+const buildPayment = {
+  generate: 'GÉNÉRER LA DEMANDE',
+  selectCurrency: 'Sélectionner la devise de référence',
+  error: {
+    currency: 'Nous n\'avons pas pu charger d\'autres prix en devises. Veuillez utiliser TRX comme référence'
+  }
+}
+
+const requestPayment = {
+  title: 'DEMANDE DE PAIEMENT'
+}
+
 export default {
   balance,
   components,
@@ -410,5 +443,9 @@ export default {
   transactionDetails,
   transactionSuccess,
   votes,
+  scanPayment,
+  makePayment,
+  buildPayment,
+  requestPayment,
   ...general
 }

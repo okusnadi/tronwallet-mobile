@@ -74,10 +74,7 @@ class TransactionDetail extends Component {
     const { navigation } = this.props
     const transaction = this._getTransactionObject()
     const stackToReset = this._getStackToReset(transaction.type)
-    navigation.navigate('TransactionSuccess', {
-      stackToReset,
-      navigation
-    })
+    navigation.navigate('TransactionSuccess', { stackToReset })
   }
 
   _getTransactionObject = () => {
@@ -166,7 +163,9 @@ class TransactionDetail extends Component {
     if (transactionType === 'Participate') {
       return 'ParticipateHome'
     }
-
+    if (transactionType === 'Vote') {
+      return 'Vote'
+    }
     return null
   }
 

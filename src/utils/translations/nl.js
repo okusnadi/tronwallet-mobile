@@ -391,6 +391,39 @@ const votes = {
   error: `Oeps, er was een fout tijdens het laden. Probeer opnieuw te laden`
 }
 
+const scanPayment = {
+  scan: 'Scannen',
+  error: {
+    receiver: 'Ontvanger-adres ongeldig',
+    token: 'Token niet geldig',
+    amount: 'Bedrag niet geldig',
+    description: 'Beschrijving te lang',
+    code: 'Betalingscode ongeldig. Scan alstublieft een geldige '
+  }
+}
+const makePayment = {
+  pay: 'Betaal',
+  confirm: 'BEVESTIG BETALING',
+  error: {
+    receiver: 'ontvanger is gelijk aan aanvrager',
+    token: 'Dit account heeft niet het token voor deze transactie',
+    amount: 'Dit account heeft niet genoeg saldo.',
+    description: 'Geen beschrijving beschikbaar'
+  }
+}
+
+const buildPayment = {
+  generate: 'GENERATE REQUEST',
+  selectCurrency: 'Selecteer de referentievaluta',
+  error: {
+    currency: 'We konden geen andere valutaprijzen laden. Gebruik TRX als referentie '
+  }
+}
+
+const requestPayment = {
+  title: 'AANVRAAG BETALING'
+}
+
 export default {
   balance,
   components,
@@ -410,5 +443,9 @@ export default {
   transactionDetails,
   transactionSuccess,
   votes,
+  scanPayment,
+  buildPayment,
+  makePayment,
+  requestPayment,
   ...general
 }

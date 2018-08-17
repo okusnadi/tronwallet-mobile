@@ -30,7 +30,7 @@ import { SectionTitle } from './elements'
 // Utils
 import getBalanceStore from '../../store/balance'
 import { orderAssets } from '../../utils/assetsUtils'
-import { USER_PREFERRED_LANGUAGE, USER_FILTERED_TOKENS } from '../../utils/constants'
+import { USER_PREFERRED_LANGUAGE, USER_FILTERED_TOKENS, FIXED_TOKENS } from '../../utils/constants'
 import tl from '../../utils/i18n'
 import fontelloConfig from '../../assets/icons/config.json'
 import { withContext } from '../../store/context'
@@ -40,18 +40,21 @@ import Client from '../../services/client'
 import Loading from '../../components/LoadingScene'
 
 const Icon = createIconSetFromFontello(fontelloConfig, 'tronwallet')
+
 const resetAction = StackActions.reset({
   index: 0,
   actions: [NavigationActions.navigate({ routeName: 'Loading' })],
   key: null
 })
+
 const LANGUAGES = [
   { value: tl.t('cancel') },
   { key: 'en-US', value: 'English' },
   { key: 'pt-BR', value: 'Português' },
   { key: 'fr-FR', value: 'Français' },
   { key: 'nl-NL', value: 'Nederlands' },
-  { key: 'es-ES', value: 'Español' }
+  { key: 'es-ES', value: 'Español' },
+  { key: 'ch-CH', value: '中文' }
 ]
 
 class Settings extends Component {
@@ -91,7 +94,9 @@ class Settings extends Component {
   _getSelectedTokens = async () => {
     try {
       const store = await getBalanceStore()
-      const tokens = store.objects('Balance').map(({ name }) => ({ id: name, name }))
+      const tokens = store.objects('Balance')
+        .map(({ name }) => ({ id: name, name }))
+        .filter(({ name }) => FIXED_TOKENS.findIndex(token => token === name) === -1)
 
       const filteredTokens = await AsyncStorage.getItem(USER_FILTERED_TOKENS)
       const selectedTokens = filteredTokens ? JSON.parse(filteredTokens) : []
@@ -183,7 +188,7 @@ class Settings extends Component {
   }
 
   _renderList = () => {
-    const { seed } = this.state
+    const { seed, userTokens } = this.state
     const list = [
       {
         title: tl.t('settings.sectionTitles.wallet'),
@@ -270,6 +275,7 @@ class Settings extends Component {
             title: tl.t('settings.network.title'),
             description: tl.t('settings.network.description'),
             icon: 'share,-network,-connect,-community,-media',
+            hide: userTokens.length === 0,
             onPress: () => this.props.navigation.navigate('NetworkConnection')
           }
         ]
@@ -285,36 +291,37 @@ class Settings extends Component {
             </SectionTitle>
             {item.sectionLinks.map(item => {
               const arrowIconName = 'arrow,-right,-right-arrow,-navigation-right,-arrows'
-              return (
-                <TouchableWithoutFeedback onPress={item.onPress} key={item.title}>
-                  <Utils.Item padding={16}>
-                    <Utils.Row justify='space-between' align='center'>
+              return !item.hide
+                ? (
+                  <TouchableWithoutFeedback onPress={item.onPress} key={item.title}>
+                    <Utils.Item padding={16}>
                       <Utils.Row justify='space-between' align='center'>
-                        <View style={styles.rank}>
+                        <Utils.Row justify='space-between' align='center'>
+                          <View style={styles.rank}>
+                            <Icon
+                              name={item.icon}
+                              size={22}
+                              color={Colors.secondaryText}
+                            />
+                          </View>
+                          <Utils.View>
+                            <Utils.Text lineHeight={20} size='small'>
+                              {item.title}
+                            </Utils.Text>
+                          </Utils.View>
+                        </Utils.Row>
+                        {(!!item.onPress && !item.right) && (
                           <Icon
-                            name={item.icon}
-                            size={22}
+                            name={arrowIconName}
+                            size={15}
                             color={Colors.secondaryText}
                           />
-                        </View>
-                        <Utils.View>
-                          <Utils.Text lineHeight={20} size='small'>
-                            {item.title}
-                          </Utils.Text>
-                        </Utils.View>
+                        )}
+                        {item.right && item.right()}
                       </Utils.Row>
-                      {(!!item.onPress && !item.right) && (
-                        <Icon
-                          name={arrowIconName}
-                          size={15}
-                          color={Colors.secondaryText}
-                        />
-                      )}
-                      {item.right && item.right()}
-                    </Utils.Row>
-                  </Utils.Item>
-                </TouchableWithoutFeedback>
-              )
+                    </Utils.Item>
+                  </TouchableWithoutFeedback>
+                ) : null
             })}
           </View>
         ))}

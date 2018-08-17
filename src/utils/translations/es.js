@@ -382,6 +382,38 @@ const votes = {
   search: 'Buscar',
   error: `Oops, algo no cargó correctamente. Por favor intenta de nuevo`
 }
+const scanPayment = {
+  scan: 'Escanear',
+  error: {
+    receiver: 'La dirección del destinatario no es válida',
+    token: 'Ficha not valid',
+    amount: 'Monto no válido',
+    description: 'Description too long',
+    code: 'Descripción demasiado larga'
+  }
+}
+const makePayment = {
+  pay: 'Paga',
+  confirm: 'CONFIRMAR PAGO',
+  error: {
+    receiver: 'Receptor es igual a solicitante',
+    token: 'Esta cuenta no tiene el ficha para esta transacción',
+    amount: 'Esta cuenta no tiene suficiente saldo.',
+    description: 'No hay descripción disponible'
+  }
+}
+
+const buildPayment = {
+  generate: 'GENERAR PETICIÓN',
+  selectCurrency: 'Seleccione la moneda de referencia',
+  error: {
+    currency: 'No hemos podido cargar otros precios de divisas. Por favor use TRX como referencia'
+  }
+}
+
+const requestPayment = {
+  title: 'REQUEST PAYMENT'
+}
 
 export default {
   balance,
@@ -402,5 +434,9 @@ export default {
   transactionDetails,
   transactionSuccess,
   votes,
+  scanPayment,
+  makePayment,
+  buildPayment,
+  requestPayment,
   ...general
 }
